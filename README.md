@@ -22,7 +22,7 @@ You're going to need:
 
 (Taken, and slightly altered, from Slate's instructions)
 
-1. `cd internal-docs`
+1. `cd checkoutapi-docs`
 2. Initialize and start Slate. You can either do this locally, or with Vagrant:
 
 ```shell
