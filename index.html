@@ -1,0 +1,1853 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Atlas</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #151515;
+  background-color: #ac4142;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #505050;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #d0d0d0;
+}
+.highlight .p, .highlight .pi {
+  color: #d0d0d0;
+}
+.highlight .gi {
+  color: #90a959;
+}
+.highlight .gd {
+  color: #ac4142;
+}
+.highlight .gh {
+  color: #6a9fb5;
+  background-color: #151515;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #aa759f;
+}
+.highlight .kc {
+  color: #d28445;
+}
+.highlight .kt {
+  color: #d28445;
+}
+.highlight .kd {
+  color: #d28445;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #90a959;
+}
+.highlight .sr {
+  color: #75b5aa;
+}
+.highlight .si {
+  color: #8f5536;
+}
+.highlight .se {
+  color: #8f5536;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #6a9fb5;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #90a959;
+}
+.highlight .ss {
+  color: #90a959;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;shell&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="shell">cURL</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='https://github.bus.zalan.do/Atlas'>Atlas</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        
+          <h1 id="introduction">Introduction</h1>
+
+<p>Welcome to the Atlas documentation! Our components were designed to provide to our partners a more streamlined access the Zalando shopping platform to enable our customers to purchase wherever they are. In these pages you&rsquo;ll find all the necessary information to interact with said components.</p>
+
+<p>For the API specifications don&rsquo;t forget to check the Swagger spec for each component. The information here is complimentary to those specs.</p>
+
+<p>We have language bindings in Shell! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+
+<p>This API documentation page was created with <a href="https://github.com/tripit/slate">Slate</a>.</p>
+
+          <h1 id="concepts">Concepts</h1>
+
+<p>Across our components there are a few reoccurring concepts and/or resources that one should be familiar with in order to fully understand what is going on.</p>
+
+<p>In this section we will go over some of them, and describe on a higher level their significance to our components. Specific use cases will be explained in the endpoints&rsquo; documentation.</p>
+
+<h2 id="client">Client</h2>
+
+<p>Every client of our components is a partner of Zalando. Entities using our APIs do so in cooperation with Zalando, given that they are selling Zalando articles in their own platform. Be it a mobile app, or website.</p>
+
+<h2 id="sales-channel">Sales Channel</h2>
+
+<p>Sales channel identifies a few things that are of significance to our components. Sales channel tells us which partner is calling us. It also specifies the catalog available to our end customers, which tells us in which country are the customers attempting to make an order.</p>
+
+<h2 id="cart">Cart</h2>
+
+<p>Cart is a resource of our Checkout API. It holds the articles that the customer wishes to buy. It also provides the total value of the cart, summing the individual prices of each article.</p>
+
+<h2 id="checkout">Checkout</h2>
+
+<p>Checkout is the resource with which the remaining data required to create an order is set. It sets the billing address, the delivery address, and provides the client with the payment options available to the customer.</p>
+
+<h2 id="address">Address</h2>
+
+<p>A quite simple and straightforward resource, Addresses can be used for billing or shipping (a.k.a. delivery). When used for delivery an address can also specify a Pick Up Point.</p>
+
+<h3 id="pick-up-point">Pick Up Point</h3>
+
+<p>A pick up point is an address that is used for delivery purposes only. Articles shipped to these addresses will be later picked up (hence the name) by the customer. Pick up points are typically belonging to a company and are specific per country.</p>
+
+<p>An example: a Packstation is a pick up point in Germany.</p>
+
+<h2 id="address-checks">Address Checks</h2>
+
+<p>This resource is an aid to our clients and our customers. It is used to verify an address for its correctness. It can also provide suggestions for a more easy to recognise address. This resource is mostly useful when creating new addresses.</p>
+
+<h2 id="order">Order</h2>
+
+<p>Also fairly simple, this resource represents the orders of our customers.</p>
+
+          <h1 id="authentication">Authentication</h1>
+
+<blockquote>
+<p>To authorize, use this code:</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
+curl -X GET -H <span class="s2">"Authorization: Bearer </span><span class="k">$(</span>oauth2 token<span class="k">)</span><span class="s2">"</span> <span class="se">\</span>
+--header <span class="s2">"Accept: application/json"</span> <span class="s2">"api_endpoint_here"</span>
+</code></pre>
+
+<p>Atlas&rsquo; APIs use Oauth2 tokens for authentication and authorization. Different endpoints can require tokens from different realms, such as <code>/service</code> or <code>/customers</code>, and with different scopes.
+You&rsquo;ll find which tokens are valid in the details of each endpoint.</p>
+
+<p>Atlas API expects Oauth2 tokens to be included in all API requests to the server in a header that looks like the following:</p>
+
+<p><code class="prettyprint">Authorization: Bearer {token}</code></p>
+
+<h2 id="how-to-get-access-to-our-components">How to get access to our components?</h2>
+
+<p>Getting access to our components is currently a manual process, so the best course of action is to contact us (team-atlas@zalando.de).</p>
+
+<p>Be sure, though, that 3 questions will be asked, so you might as well have an answer for them:</p>
+
+<ul>
+<li>Is it in Staging? Or Live?
+
+<ul>
+<li>There is a difference in the URLs for staging and live, as one would expect.</li>
+<li>Also it is important to know the expected extra load on the services.</li>
+</ul></li>
+<li>Is it for service-to-service communication, or for customers?
+
+<ul>
+<li>Service-to-service uses the Resource Owner Password Credentials Grant, so it requires credentials for a Service User (username and password) and Client credentials (Client ID and Client Secret).</li>
+<li>Customers will user their own login, but to request the token Client credentials are still required.</li>
+<li>Only a few endpoints are accessible for service-to-service, so be ready to have a customer token ready.</li>
+</ul></li>
+<li>Is it for internal Zalando developers, or Zalando partners (i.e. the intended clients of the APIs).
+
+<ul>
+<li>For Zalando partners, there are more things to take care of than just authentication and authorization.</li>
+</ul></li>
+</ul>
+
+<p>For further questions (such as &ldquo;I am not quite sure what is my use case&rdquo;) feel free to contact team Atlas (team-atlas@zalando.de).</p>
+
+<h2 id="scopes">Scopes</h2>
+
+<p>Most operations are secured by OAuth2 and we reserve the ability to control the access to the different operations via the use of scopes. Each operation will be managed by a given scope, and if that scope is not included in the token, then access to that operation is denied. However, you do not need to specify the individual scopes when requesting a token as these will be assigned to all valid tokens as a default set. This prevents any break in talking to our APIs should a new scope be created for a new or old feature.</p>
+
+<h2 id="service-authentication">Service authentication</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -v -X POST
+  -H <span class="s2">"Authorization: Basic cSDF923sdWERweerZZWFG9348dTdBN=="</span>
+  -H <span class="s2">"Content-Type: application/x-www-form-urlencoded"</span>
+  -H <span class="s2">"Accept: application/json"</span>
+  -d <span class="s1">'grant_type=password&amp;username=client_HS23eDa2&amp;password=somepassword&amp;realm=/services'</span>
+  <span class="s2">"https://{Token Service URL}/oauth2/access_token"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>
+    <span class="s2">"access_token"</span>:<span class="s2">"{eyJraWQiOiJMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9ODErNYwiYXpwIjoic3R5bGlnaHRfmaSDggHHjDIsInNjb3BlIjpbIm5g6HH7k88BpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0Njg4NzgwNTksImlhdCI6MTQ2ODg0OTI1OX0.Uxm-sOif2HN7z3Mam3--TEpkpRaCxP9gFIYmSDSVmR07b8lqOVtsSPMTslhcmRfF2HVGG1Wjw}"</span>,
+    <span class="s2">"token_type"</span>:<span class="s2">"Bearer"</span>,
+    <span class="s2">"expires_in"</span>:28800,
+    <span class="s2">"scope"</span>:<span class="s2">"scope1 scope2 scope3"</span>,
+    <span class="s2">"realm"</span>:<span class="s2">"/services"</span>
+<span class="o">}</span>
+</code></pre>
+
+<p>Service-to-service authentication is done with the Resource Owner Password Credentials Grant. This means you need a Service User, with a username and a password, as well as a Client ID and Client Secret. This type of tokens is used for requests that do not require consent by a customer, so communication can be exclusively between two servers. This, of course, includes getting a token, validating it, and renewing it (where token renewing is an option).</p>
+
+<p>Service tokens are valid for the Catalog API and for cart operations on the Checkout API, so we can have anonymous carts. The rest of the checkout operations require a customer token.</p>
+
+<p>Service Users and Client credentials are provided by team Greendale, but before getting your credentials talk to us in order to discuss the required use cases.</p>
+
+<h2 id="customer-authentication">Customer authentication</h2>
+
+<blockquote>
+<p>Login URL for staging</p>
+</blockquote>
+<pre class="highlight plaintext"><code>https://{Authentication Provider URL}/oauth2/authorize?realm=/customers&amp;response_type=token&amp;client_id=client_HS23eDa2&amp;redirect_uri=http://com.example.app/redirect
+</code></pre>
+
+<p>Customer authentication means that a Zalando customer will input his or her username and password into a login form. Those credentials authenticate the customer, but are not enough to obtain a token. Depending on the OAuth2 flow type more information is required. Currently we support the Implicit Flow and the Authorization Code grant types. For the first the extra information is the Client ID, and the redirect URI, and for the latter the Client Secret is also required. You can see the URL for the login form on the right.</p>
+
+<p>After the customer was successfully authenticated the next step will depend on whether or not is this the first time the customer logs in via the client app or site. If it is the first time, then the customer will have to give consent to share his Zalando account with the client in order to perform the checkout steps. This step will not be necessary in subsequent logins, unless the customer revokes access to the client app or website.</p>
+
+<p>Customer tokens are used for requests that require consent from the customer. Those requests will perform some kind of operation on behalf of the customer (managing addresses, carts, and checkouts, and creating orders). Using our components, a Service token would not work (even with the correct scopes) because the customer is identified by his or her token, and a service token does not identify any customer.</p>
+
+<p>Like Service Authentication, the Client ID is provided by team Greendale. The redirect URI, on the other hand, is provided by the client of our API, as it should be a valid URL for the client&rsquo;s website or mobile app.</p>
+
+<h2 id="token-info">Token Info</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -v --request GET
+  -H <span class="s2">"Authorization: Bearer eyJraWQiOiJMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9ODErNYwiYXpwIjoic3R5bGlnaHRfmaSDggHHjDIsInNjb3BlIjpbIm5g6HH7k88BpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0Njg4NzgwNTksImlhdCI6MTQ2ODg0OTI1OX0.Uxm-sOif2HN7z3Mam3--TEpkpRaCxP9gFIYmSDSVmR07b8lqOVtsSPMTslhcmRfF2HVGG1Wjw"</span>
+  <span class="s2">"https://{Token Service URL}/oauth2/tokeninfo"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>  
+   <span class="s2">"access_token"</span>:<span class="s2">"eyJraWQiOiJMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9ODErNYwiYXpwIjoic3R5bGlnaHRfmaSDggHHjDIsInNjb3BlIjpbIm5g6HH7k88BpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0Njg4NzgwNTksImlhdCI6MTQ2ODg0OTI1OX0.Uxm-sOif2HN7z3Mam3--TEpkpRaCxP9gFIYmSDSVmR07b8lqOVtsSPMTslhcmRfF2HVGG1Wjw"</span>,
+   <span class="s2">"scope1"</span>:true,
+   <span class="s2">"scope2"</span>:true,
+   <span class="s2">"scope3"</span>:true,
+   <span class="s2">"client_id"</span>:<span class="s2">"client_HS23eDa2"</span>,
+   <span class="s2">"expires_in"</span>:2014980,
+   <span class="s2">"grant_type"</span>:<span class="s2">"password"</span>,
+   <span class="s2">"realm"</span>:<span class="s2">"/customers"</span>,
+   <span class="s2">"scope"</span>:[  
+      <span class="s2">"scope1"</span>,
+      <span class="s2">"scope2"</span>,
+      <span class="s2">"scope3"</span>,
+   <span class="o">]</span>,
+   <span class="s2">"token_type"</span>:<span class="s2">"Bearer"</span>,
+   <span class="s2">"uid"</span>:<span class="s2">"0987654321"</span>
+<span class="o">}</span>
+</code></pre>
+
+<p>Every call to our endpoints will check for a valid token. However, a client might also want to check whether a token is valid or not. To do that, the Token Info endpoint is the proper way to go. Besides knowing the validity of the token, one can also check the scopes assigned to that token, the customer ID (in the <code class="prettyprint">uid</code> field for a customer token), the expiry time of the token (<code class="prettyprint">expires_in</code> field), and the client that requested the token (<code class="prettyprint">client_id</code>) among other properties.</p>
+
+          <h1 id="checkout-api">Checkout API</h1>
+
+<p>This is the component that allows partners to share the Zalando shopping experience in their apps or websites. With it partners have everything that they need to create a Zalando order, without the customer navigating away from the place where they became inspired.</p>
+
+<p>This component provides endpoints that grant its clients the ability to:</p>
+
+<ul>
+<li>Manage addresses</li>
+<li>Verify addresses</li>
+<li>Manage carts</li>
+<li>Manage checkouts</li>
+<li>Create and read orders</li>
+</ul>
+
+<p>Everything is in place to give to our customers all the possibilities of the Zalando shop (coupons, different shipping options, different destinations). Even if some of those feature are not available at the moment, adding them should not include any breaking changes to the API.</p>
+
+<p>More information on the description of the different endpoints.</p>
+
+<aside class="notice">
+Don&rsquo;t forget to check the API spec!</a>
+</aside>
+
+<h2 id="happy-path">Happy Path</h2>
+
+<p>One of the goals of team Atlas is to provide the most streamlined shopping experience possible. Shopping should be about getting what you want, and not about filling in some forms. With that in mind we make it possible to create an order with only 3 requests:</p>
+
+<ol>
+<li><a href="#creating-a-cart">Create a cart</a></li>
+<li><a href="#creating-a-checkout">Create a checkout</a></li>
+<li><a href="#creating-an-order">Create an order</a></li>
+</ol>
+
+<p>The above steps are, of course, from the API&rsquo;s perspective. It excludes the browsing and adding of individual articles to the cart. It also assumes that the customer has a valid token. Otherwise he or she would have to login.</p>
+
+<p>What makes this flow possible is having some default data for addresses and payment method. If a customer already set his or her default address for billing and shipping, then no address selection or input is required. The same is valid for payment. Especially if we&rsquo;re talking about Invoice or Pre-payment, that do not require further inputs (Credit Card can ask for an extra token, even if all details were already submitted).</p>
+
+<p>After choosing the article(s), a customer needs only to confirm the default data to create the order. And that is it!</p>
+
+<h2 id="long-path-aka-complete-checkout-process">Long Path (aka Complete Checkout Process)</h2>
+
+<p>The flow described in the above section is the ideal one. As was mentioned, some default selections need to be there already. For active Zalando customers this should all be in place already. For new customers this won&rsquo;t be the case. A customer that just registered won&rsquo;t have any defaults and will have to submit all of the required data. For those, here is the expected path:</p>
+
+<ol>
+<li>Register a new account</li>
+<li><a href="#customer-authentication">Login</a></li>
+<li>Give Consent</li>
+<li><a href="#creating-a-cart">Create a cart</a></li>
+<li><a href="#create-address">Create an address</a> (for simplicity let&rsquo;s create one that is valid for billing and shipping)</li>
+<li><a href="#creating-a-checkout">Create a checkout</a></li>
+<li><a href="#payment">Select your payment method</a> (depending on the payment method you can have more steps)</li>
+<li><a href="#creating-an-order">Create an order</a></li>
+</ol>
+
+<p>A lot more work compared with the previous flow, right? Fortunately, after this first experience the customer can expect the <a href="#happy-path">happy path</a> in subsequent visits to the app or website.</p>
+
+<h2 id="address-operations">Address Operations</h2>
+
+<p>Below we have the different operations that can be done on Addresses, which are basically CRUD operations. All of these operations have their place in the checkout process.</p>
+
+<h3 id="security">Security</h3>
+
+<p>All Address endpoints are protected by OAuth2. A Customer token is required to perform the requests. The token will also identify the customer performing the requests.</p>
+
+<h2 id="reading-addresses">Reading addresses</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X GET
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.addresses+json; application/x.problem+json"</span>
+    <span class="s2">"https://{Checkout API URL}/api/addresses?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&amp;client_id=client_HS23eDa2"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mollstr. 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"additional"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10178"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pack_station"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"default_billing"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"default_shipping"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint retrieves addresses that belong to the customer that owns the OAuth2 token sent with the request. The addresses are also filtered with the help of the sales channel ID. That makes the endpoint return only the addresses that are in the same countries the sales channel is good for. For example, if the sales channel is only for France, then the response will contain only French addresses.
+An empty array is returned if there are no addresses for that customer, in the countries specified by the sales channel.</p>
+
+<p>This endpoint is mostly useful during checkout when the customer would like to select one of its existing addresses to set as billing or shipping.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET /api/addresses?sales_channel={sales_channel}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sales_channel</td>
+<td>Query</td>
+<td>Used to specify under which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in.</td>
+<td> Yes</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. It will also identify the customer issuing the request, and with it the addresses to return</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="reading-a-single-address">Reading a single address</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X GET
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.address+json; application/x.problem+json"</span> <span class="se">\</span>
+    <span class="s2">"https://{Checkout API URL}/api/addresses/1?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&amp;client_id=client_HS23eDa2"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mollstr. 1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"additional"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10178</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"default_billing"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"default_shipping"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint retrieves a specific address that belongs to the customer that owns the OAuth2 token sent with the request. Address is specified by the address ID. In order for the address to be returned it must share the country with the sales channel specified in the request.</p>
+
+<p>This endpoint will find its use across the checkout process. Whenever an address ID is specified, but its details are not present, this is the endpoint that will be used.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET /api/addresses/{address_id}?sales_channel={sales_channel}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sales_channel</td>
+<td>Query</td>
+<td>Used to specify under which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in.</td>
+<td> Yes</td>
+</tr>
+<tr>
+<td>address_id</td>
+<td>Path</td>
+<td>ID of the customer address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. The token also helps validate that the requested address belongs to the user making the request.</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="creating-an-address">Creating an address <a name="create-address"></a></h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X POST
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Content-Type: application/x.zalando.customer.address.create+json;charset=UTF-8"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.address.create.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
+    -d <span class="s1">'{
+         "customer_number": 1,
+         "gender": "MALE",
+         "first_name": "John",
+         "last_name": "Doe",
+         "street": "Mollstr. 1",
+         "additional": "EG",
+         "zip": 10178,
+         "city": "Berlin",
+         "country_code": "DE",
+         "default_billing": true,
+         "default_shipping": false
+       }'</span>
+    <span class="s2">"https://{Checkout API URL}/api/addresses?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mollstr. 1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"additional"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10178</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"default_billing"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"default_shipping"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Creating addresses is done with this endpoint. There are some rules that should be made clear when performing this request. First, when an address is created it is not assigned to either billing or shipping, unless the <code class="prettyprint">default_billing</code> or <code class="prettyprint">default_shipping</code> flags are set. The addresses of a customer are like an address book that can be used for one purpose or the other.</p>
+
+<p>There are, however, some constraints. A Pick up point type address cannot be used as a billing address. You can see an example Pick up point on the <a href="#pick-up-point-example">right</a>.
+Speaking of Pick up points, we currently differentiate them between Packstation, and non-Packstations. The reason for this is that Packstation do not need a Street, whereas the remaining Pick up points do. For a Packstation, the combination of zip code + city + Packstation ID is enough to identify the Packstation.</p>
+
+<blockquote>
+<p>Example of a Pick up point address <a name="pick-up-point-example"></a></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"gender"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"FEMALE"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"first_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Jim"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"last_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Bean"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"zip"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"10178"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"city"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"country_code"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"default_billing"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"default_shipping"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"pickup_point"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PACKSTATION"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"802"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"member_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"111222333"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Whether because a new customer is going through the checkout process or an existing customer wants to create a new address for billing or shipping, a time will come where addresses will need to be created. That&rsquo;s where this endpoint comes in handy.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">POST /api/addresses?sales_channel={sales_channel}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sales_channel</td>
+<td>Query</td>
+<td>Used to specify under which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in.</td>
+<td> Yes</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. The token specifies under which user the address will be created.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Address creation request object</td>
+<td> Body</td>
+<td>Address details</td>
+<td> Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="changing-an-address">Changing an address</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X PUT
+    -H <span class="s2">"Content-Type: application/x.zalando.customer.address.update+json;charset=UTF-8"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.address.update.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"If-Match: *"</span>
+    -d <span class="s1">'{
+        "id": "1",
+        "customer_number": 1,
+        "gender": "FEMALE",
+        "first_name": "Jim",
+        "last_name": "Bean",
+        "street" : "Tamara-Danz-Str. 1",
+        "zip" : "10178",
+        "city" : "München",
+        "country_code": "DE",
+        "default_billing": true,
+        "default_shipping": true
+      }'</span>
+    <span class="s2">"https://{Checkout API URL}/api/addresses/1?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FEMALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jim"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bean"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Tamara-Danz-Str. 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"10178"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"München"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"default_billing"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"default_shipping"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Except for the request URI, changing addresses is in everything similar to creating them. The same rules apply to build the request body (the address object).</p>
+
+<p>Also like the create address endpoint, they are useful when the customer is picking which addresses to use in the checkout, and needs to make small adjustments to one of them.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">PUT /api/addresses/{address_id}?sales_channel={sales_channel}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sales_channel</td>
+<td>Query</td>
+<td>Used to specify under which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in.</td>
+<td> Yes</td>
+</tr>
+<tr>
+<td>address_id</td>
+<td>Path</td>
+<td>ID of the customer address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. Used to validate if the address to be changed belongs to the customer issuing the request.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Address update request object</td>
+<td> Body</td>
+<td>Address details</td>
+<td> Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="deleting-an-address">Deleting an address</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X DELETE
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    <span class="s2">"https://{Checkout API URL}/api/addresses/6428413?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
+</code></pre>
+
+<p>Although it might seem that this functionality has little use in the checkout process, it was still included with the user experience in mind. The previous endpoints allow a customer to manage his or her address book, to a point. Makes sense to make it feature complete and provide the delete functionality. This way a customer can get rid of some old addresses and make the use of the address book on a mobile screen (for example) much simpler.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">DELETE /api/addresses/{address_id}?sales_channel={sales_channel}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sales_channel</td>
+<td>Query</td>
+<td>Used to specify under which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in.</td>
+<td> Yes</td>
+</tr>
+<tr>
+<td>address_id</td>
+<td>Path</td>
+<td>ID of the customer address</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. Used to validate if the address to be deleted belongs to the customer issuing the request.</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="address-check">Address Check</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X POST
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Content-Type: application/x.zalando.address-check.create+json"</span>
+    -d <span class="s1">'{
+            "address": {
+                "street": "Mollstraße 1",
+                "additional": "EG",
+                "zip": 10178,
+                "city": "Berlin",
+                "country_code": "DE"
+            }
+        }'</span>
+    <span class="s2">"https://{Checkout API URL}/api/address-checks"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CORRECT"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"normalized_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mollstr. 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"additional"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10178</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The last address operation, and the only request that is not directly related to customer addresses, Address Checks are a useful tool to help ensure that Zalando orders reach our customers. Similarly to creating or updating addresses, there are some rules when it comes to Pick up points. Fortunately, they are the same rules as the above operations.</p>
+
+<p>With address checks, one can submit an address for validation. The request will tell you whether the address is properly written - and if it isn&rsquo;t it will try to provide an alternative -, or if it is blacklisted. Suggestions provided by this endpoint are not mandatory. They should be presented to the customer, and suggested to use the alternative as it will increase the chances of getting the order. The reason why the suggestion is not mandatory is because the inputted address can be of a recent building, which is not yet recognized by our services. This operation should be performed with every new address created, or changes to an address.</p>
+
+<p>Some additional information about the status returned in the response object (you can also find it in the API spec):</p>
+
+<ul>
+<li><code class="prettyprint">CORRECT</code>: Address is correct and valid for use</li>
+<li><code class="prettyprint">NORMALIZED</code>: Address is valid, but the normalized form (field <code class="prettyprint">normalized_address</code> in the AddressCheckResponse type) should be suggested to the user to safeguard the processing of the order</li>
+<li><code class="prettyprint">NOT_CORRECT</code>: Address was not recognised. User should be notified of this, since it might impact the processing of the order, but the choice to progress should still be given (address might be of a new street or building that is not yet recognised).</li>
+</ul>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">POST /address-checks</code></p>
+
+<h2 id="cart-operations">Cart Operations</h2>
+
+<p>At the start of the checkout process we have the Cart. This is where the customers will put all the articles that they want to buy. Similar to the Zalando shop experience, a cart can be managed by an unauthenticated customer (aka anonymous cart).</p>
+
+<p>Following operations allow management of a Cart with the exception of deleting the cart, which wouldn&rsquo;t make sense from the point of view of our clients, or customers. A customer only owns a cart per platform, and does not see the carts for the other platforms. For example: Customer Y buys Zalando articles in app X and app Y; the carts for the two apps will be different, and are only available for their respective app.</p>
+
+<h3 id="security">Security</h3>
+
+<p>All Cart endpoints are protected by OAuth2. But unlike most of the other endpoints, these accept service tokens as well as customer tokens. The reason for this is to allow the creation of an anonymous cart. For example, a customer could browse a catalog without being logged in. When he or she would like to complete the order they could login and continue the checkout process using a customer token. At this point, the items in the anonymous cart would be moved to the cart of that customer. When using a customer token, it will also identify the customer performing the requests. An anonymous cart cannot proceed to the checkout step because it lacks that information.</p>
+
+<h2 id="creating-a-cart">Creating a cart</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X POST
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Accept: application/x.zalando.cart.create.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
+    -H <span class="s2">"Content-Type: application/x.zalando.cart.create+json;charset=UTF-8"</span>
+    -d <span class="s1">'{
+            "sales_channel" : "16b43f36-5ef9-0a25-3f4b-b00b5007b3de",
+            "items" : [
+                {
+                    "sku" : "GU1L13R38-K135784412",
+                    "quantity" : 1
+                },
+                {
+                    "sku" : "D123GSAR1-1JL579242",
+                    "quantity" : 2
+                }
+            ],
+            "replace_items": true
+        }'</span>
+    <span class="s2">"https://{Checkout API URL}/api/carts"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"sales_channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"sku"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"D123GSAR1-1JL579242"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"quantity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"items_out_of_stock"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"GU1L13R38-K135784412"</span><span class="p">],</span><span class="w">
+  </span><span class="nt">"delivery"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"earliest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-22T11:52:48.622Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"latest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-23T11:52:48.622Z"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"gross_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">90.95</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"tax_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">14.52</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint will provide our Checkout API with the items the customer wishes to buy. It is also here that the prices will be locked for the customer.</p>
+
+<p>The flag <code class="prettyprint">replace_items</code>, when set to true (its default value), will clear the cart of existing items, if any. If set to false, it will add the items of the request to the ones already present in the cart. A valid use case for this field is when a customer with an anonymous cart logs in, and the API client can merge the items of the anonymous cart with the items that a customer may, or may not, have in his or her cart.</p>
+
+<p>The starting point for any checkout process. Or so it should be used. A client could hold the cart ID and use it in future checkouts by removing all the items from it, but we strongly recommend to always start a checkout with this endpoint. Even if the customer will proceed adding items to cart, and move to the checkout step later.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">POST /api/carts</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Cart creation request object</td>
+<td> Body</td>
+<td>Specifies the content of the cart, and the sales channel where the items are being sold.</td>
+<td> Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="managing-items-in-a-cart">Managing items in a cart</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X PUT
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Accept: application/x.zalando.cart.items.update.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
+    -H <span class="s2">"Content-Type: application/x.zalando.cart.items.update+json;charset=UTF-8"</span>
+    -d <span class="s1">'[
+            {
+                "sku": "D123GSAR1-1JL579242",
+                "quantity": "1"
+            }
+        ]'</span>
+    <span class="s2">"https://{Checkout API URL}/api/carts/b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3/items"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"sales_channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"sku"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"D123GSAR1-1JL579242"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"quantity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"items_out_of_stock"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="nt">"delivery"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"earliest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-22T11:52:48.622Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"latest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-23T11:52:48.622Z"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"gross_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">45.95</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"tax_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">7.52</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Assuming a typical use of the cart endpoints, the first article added by the customer will trigger the creation of the cart. Subsequent articles will be added with this endpoint.</p>
+
+<p>It is important to notice that the body for this request should include all the items that should be in the cart, and not only the items being added or removed. This may seem like overhead, but it makes it clear at all times (or requests) what is supposed to be the content of the cart.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">PUT api/carts/{cart_id}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>cart_id</td>
+<td>Path</td>
+<td>The ID of the Cart</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. Used to validate if the cart to be changed belongs to the customer issuing the request.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Cart update request object</td>
+<td> Body</td>
+<td>Specifies the content of the cart. After creation, only the items can be changed.</td>
+<td> Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="getting-the-cart">Getting the cart</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X GET
+    -H <span class="s2">"Accept: application/x.zalando.cart+json"</span>
+    -H <span class="s2">"If-None-Match: *"</span>
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    <span class="s2">"https://{Checkout API URL}/api/carts/b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"sales_channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"sku"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"D123GSAR1-1JL579242"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"quantity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"items_out_of_stock"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="nt">"delivery"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"earliest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-22T11:52:48.622Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"latest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-23T11:52:48.622Z"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"gross_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">45.95</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"tax_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">7.52</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint returns the same information than the ones above. Its usefulness comes from the navigation capabilities it provides to clients of the API. Like with the case of <a href="#deleting-an-address">deleting addresses</a>, it was added to the API with the user experience in mind, as well as the flexibility it provides our partners. For example, a customer could browse the catalog for a bit after adding some articles to the cart, and then initiate the checkout process; at that point this endpoint could be called to open the cart view.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET api/carts/{cart_id}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>cart_id</td>
+<td>Path</td>
+<td>The ID of the Cart</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. The token also helps validate that the requested cart belongs to the user making the request.</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="checkout-operations">Checkout Operations</h2>
+
+<p>At the checkout step, customers will specify the addresses for billing and shipping, delivery options (which for the time being are limited to Standard delivery only), and the payment method. The payment selection, as well as any input regarding payment, is done outside of our components. For more information please check the <a href="#payment">Payment section</a>.</p>
+
+<p>Remaining purpose of the checkout operation is to confirm all the selections done by the customer, and make the necessary adjustments. Said adjustments are limited to the addresses and payment method. Changes to the articles being ordered requires starting all over. Two reasons for this are stock and price verification. Even for articles that were already in the cart, verifying stock and price is required. Not to mention recalculating the total cart value.</p>
+
+<p>Operations below allow for everything mentioned in the above paragraphs, which translates into creation, read, and update of checkouts.</p>
+
+<h3 id="security">Security</h3>
+
+<p>All Checkout endpoints are protected by OAuth2. A Customer token is required to perform the requests. The token will also identify the customer performing the requests.</p>
+
+<h2 id="creating-a-checkout">Creating a checkout</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X POST
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Content-Type: application/x.zalando.customer.checkout.create+json;charset=UTF-8"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.checkout.create.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"</span>
+    -d <span class="s1">'{
+            "cart_id":"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
+            "shipping_address_id": "1",
+            "billing_address_id": "2"
+        }'</span>
+    <span class="s2">"https://{Checkout API URL}/api/checkouts"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"cart_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"billing_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mollstr. 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"additional"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10178</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"shipping_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10178</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pickup_point"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PACKSTATION"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"member_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12345678</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"delivery"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"earliest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-21T13:27:31+01:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"latest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-23T13:27:31+01:00"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"payment"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"selected"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CREDIT_CARD"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"key_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"key_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"external_payment"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"selection_page_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://{Payment Selection URL}/ae45f19"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Creation of the checkout object requires only the cart ID and the addresses to be used. And the latter is actually optional. When not present, the default addresses for billing and shipping will be used. As for the articles being checked out, everything is taken from the cart.</p>
+
+<p>Notice that the response also does not include the articles being ordered. You can get that using the endpoint to get the <a href="#getting-the-cart">cart content</a>.</p>
+
+<p>Assuming that everything is OK with the articles and addresses, we are left with the payment step. There are two options here: the customer already has the default payment method selected (look into the <code class="prettyprint">payment</code> field); customer has no default payment method, or wishes to use a different one. For the first case the checkout process can proceed to order creation. For the second case the customer must be redirected to the payment selection page indicated by the <code class="prettyprint">selection_page_url</code> field.</p>
+
+<p>The payment selection is done outside of our components. When the selection is done, then customers will be redirected back to the checkout. This will require a redirect URL provided by the client of our API. Worth noticing is the <code class="prettyprint">payment.external_payment</code> flag. When set to true, clients of the API can already provide the customer with the information that they will be redirected to an external page after order creation. More details on payment in the <a href="#payment">Payment section</a>.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">POST /api/checkouts</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. The token also helps validate that the cart and addresses being used belong to the user making the request</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>X-Forwarded-For</td>
+<td>Header</td>
+<td>IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Checkout creation request object</td>
+<td>Body</td>
+<td>Input that clients can/need to provide for checkout creation</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="changing-the-checkout">Changing the checkout</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X PUT
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Content-Type: application/x.zalando.customer.checkout.update+json;charset=UTF-8"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.checkout.update.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"</span>
+    -d <span class="s1">'{
+            "shipping_address_id": "4",
+            "billing_address_id": "3"
+        }'</span>
+    <span class="s2">"https://{Checkout API URL}/api/checkouts/VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"cart_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"billing_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tamara-Danz-Str. 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"additional"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10243</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"shipping_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Neue Bahnhoffstr. 10"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10245</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"delivery"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"earliest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-21T13:27:31+01:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"latest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-23T13:27:31+01:00"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"payment"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"selected"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CREDIT_CARD"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"key_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"key_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"external_payment"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"selection_page_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://{Payment Selection URL}/ae45f19"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Of all the elements of the checkout, addresses are the only ones that can be changed without impact on the overall checkout process. In the future we will support different shipping methods, which will be available for changing after checkout creation.</p>
+
+<p>The response is the same object than in checkout creation, so the same considerations taken for creation are valid here.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">PUT /api/checkouts/{checkout_id}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>checkout_id</td>
+<td>Path</td>
+<td> ID of the checkout</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. The token also helps validate that the cart and addresses being used belong to the user making the request</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>X-Forwarded-For</td>
+<td>Header</td>
+<td>IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Checkout update request object</td>
+<td>Body</td>
+<td>Input that clients can change in the checkout</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="getting-the-checkout">Getting the checkout</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X GET
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.checkout+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
+    <span class="s2">"https://{Checkout API URL}/api/checkouts/VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"cart_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"billing_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tamara-Danz-Str. 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"additional"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10243</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"shipping_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Neue Bahnhoffstr. 10"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10245</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"delivery"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"earliest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-21T13:27:31+01:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"latest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-23T13:27:31+01:00"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"payment"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"selected"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CREDIT_CARD"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"key_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"key_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"external_payment"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"selection_page_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://{Payment Selection URL}/ae45f19"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>All operations done on the checkout object can (and should) be done in the checkout step, so there is no real point in navigating away from the checkout step. Given that, the use of this endpoint can raise some questions. First, checkout and all its components are valid for a short period of time, so it is still possible to recover the current state. This can be useful in case of problems in the web site or app of our partners. Second, it might be necessary to get a new checkout object after the payment step. Payment is done outside of our components, which means that additional information regarding payment is obtained in the checkout response under the <code class="prettyprint">payment</code> field. For example:</p>
+
+<ul>
+<li>A customer has no payment method selected, so there won&rsquo;t be any values in the <code class="prettyprint">payment.selected</code> field</li>
+<li>The customer goes to the payment selection (indicated by the <code class="prettyprint">selection_page_url</code> field) and selects his or her payment method</li>
+<li>Customer gets back to the checkout view, and by calling this endpoint the selection will then be available in the <code class="prettyprint">payment.selected</code> field</li>
+</ul>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET /api/checkouts/{checkout_id}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>checkout_id</td>
+<td>Path</td>
+<td> ID of the checkout</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>X-Forwarded-For</td>
+<td>Header</td>
+<td>IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order</td>
+<td>No</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. The token also helps validate that the requested checkout belongs to the user making the request</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="order-operations">Order operations</h2>
+
+<p>We are now entering the last step of the checkout process. The customer already selected everything that was required to create an order, confirmed everything, and pressed the button to create his or her order.</p>
+
+<p>Below we have the operations that allow for this last step, and also some support for it. This translates into creation and read operations.</p>
+
+<h2 id="creating-an-order">Creating an order</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X POST
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Content-Type: application/x.zalando.customer.order.create+json;charset=UTF-8"</span>
+    -d <span class="s1">'{
+            "checkout_id" : "VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"
+        }'</span>
+    <span class="s2">"https://{Checkout API URL}/api/orders"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"order_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"billing_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FEMALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jim"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bean"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tamara-Danz-Str. 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10178"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"München"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"shipping_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FEMALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jim"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bean"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mollstr 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10178"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"gross_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">272.85</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"tax_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">43.56</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-24T13:29:10.062Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"detail_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.zalado.de/benutzerkonto/bestellung-detail/10"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"external_payment_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.example.paypal.com/342hk3jnbsdf"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>There is a lot that is required to create an order. Fortunately, everything is included in the checkout object of the customer, so that is the only parameter that is required to create an order.</p>
+
+<p>Order creation is done after the payment step (<a href="#long-path-aka-complete-checkout-process">Long Path</a>), or directly after checkout creation (<a href="#happy-path">Happy Path</a>) if the default payment method exists and is the one that the customer would like to use.</p>
+
+<p>After order creation there might be a final step for payment. Clients of the API already got an hint with the <code class="prettyprint">payment.external_payment</code> flag, in the checkout response. When that extra step is required, clients get the URL where customers should be redirected to in the order creation response under the <code class="prettyprint">external_payment_url</code> field. Please note that despite the order has been created, it will remain in a preliminary state until this last payment step is completed.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">POST /api/orders</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. The token also helps validate that the checkout provided to create the order belongs to the user making the request</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>X-Forwarded-For</td>
+<td>Header</td>
+<td>IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Order creation request object</td>
+<td>Body</td>
+<td>Input that clients can/need to provide for order creation</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="getting-a-list-of-orders">Getting a list of orders</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X GET
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.orders+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
+    <span class="s2">"https://{Checkout API URL}/api/orders?limit=4&amp;created_since=2016-04-16T00:00:00.000Z"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"order_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"sales_channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gross_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">272.85</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-08T16:23:40.295Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"detail_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.zalando.de/benutzerkonto/bestellung-detail/10"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"order_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"sales_channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gross_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">90.95</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-07-08T16:23:40.295Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"detail_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.zalando.de/benutzerkonto/bestellung-detail/11"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>Here is another example of an endpoint added to our component with user experience in mind. To allow customers to track what orders they make over the partner&rsquo;s platform we added an endpoint that lists those orders. The endpoint has some filters which can be used by either the partner directly, or by the customer should the partner app extend that option to its users. Those filters are: order creation date (interval start); order creation date (interval end); number of orders returned (limit). The details of each order are kept limited because the idea is just to give an overview of the orders placed by the customer. For a more detailed information on a given order, <a href="#getting-the-order-details">there is an endpoint for that</a>.</p>
+
+<p>Orders returned are limited to those that were made by the client issuing the request. That means that customers using the app from partner X won&rsquo;t see in the return list orders made in the app from partner Y. Or even orders made in Zalando&rsquo;s shop. Orders returned include orders from all the sales channels belonging to the partner.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET /api/orders?limit={limit}&amp;created_since={created_since}&amp;created_until={created_until}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>Query</td>
+<td>Maximum number of orders returned</td>
+<td>No</td>
+</tr>
+<tr>
+<td>created_since</td>
+<td>Query</td>
+<td>Minimum creation date for orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>created_until</td>
+<td>Query</td>
+<td>Maximum creation date for orders</td>
+<td>No</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. The token also helps validate that the requested order belongs to the user making the request. The token also gives information about the API client so that the result is filtered to return the data only if the order was placed via a sales channel of that Zalando partner</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="getting-the-order-details">Getting the order details</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X GET
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.order+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
+    <span class="s2">"https://{Checkout API URL}/api/orders/10"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"order_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"sales_channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"shipping_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FEMALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jim"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bean"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mollstr 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10178"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"billing_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FEMALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jim"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bean"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tamara-Danz-Str. 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10178"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"München"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"gross_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">90.95</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"tax_total"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">14.52</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-08T16:23:40.295Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"detail_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.zalando.de/benutzerkonto/bestellung-detail/10"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The customer can get an overview of orders in the partner platform, which, assuming it only displays the information provided in the <a href="#getting-a-list-of-orders">above endpoint</a>, will be a limited set of information. To get a more detailed view, clients of our API can use this endpoint. The main purpose is to serve as a complimentary endpoint to the order list.</p>
+
+<p>The last two endpoints are read only operations, which means that operations like Returns or Cancellation are not supported by our API. For a full featured post-sales experience, then the customer will have to go to Zalando shop, and manage his or her orders there.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET /api/orders/{order_number}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_number</td>
+<td>Path</td>
+<td>The order number</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. The token also helps validate that the requested order belongs to the user making the request. The token also gives information about the API client so that the result is filtered to return the data only if the order was placed via a sales channel of that Zalando partner</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="payment">Payment</h2>
+
+          <h1 id="catalog-api">Catalog API</h1>
+
+<p>The Catalog API is the component that clients should use to obtain prices, stock, and additional details on our articles. That information can come in two formats: a catalog feed; article details for a given Config SKU.</p>
+
+<p>This component serves two main purposes: allowing our partners&rsquo; Customer Facing Apps (mobile or web) to keep their Zalando catalog up to date (we&rsquo;re mostly talking about feeds, but not exclusively); provide the most recent information on stock and prices to fill in during the checkout process.</p>
+
+<p>More information on the description of the different endpoints.</p>
+
+<aside class="notice">
+Don&rsquo;t forget to check the API spec!</a>
+</aside>
+
+<h2 id="getting-feeds">Getting Feeds</h2>
+
+<blockquote>
+<p>Sample Request (all feeds)</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -v -X GET
+ -H <span class="s2">"Accept: application/x.zalando.catalog-feeds+json,application/x.problem+json"</span>
+ -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+ <span class="s2">"https://{Catalog API URL}/api/feeds"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight plaintext"><code>[
+  {
+    "sales_channel": "16a40c35-5ac3-4e39-a3e6-0d0d6047a6ae",
+    "catalog_url": "ftp://user:passwd@ftp.server.de/zalando_client_X_de.csv.gz",
+    "last_modified": "2016-08-12T10:00:16Z"
+  },
+  {
+    "sales_channel": "16b43f36-5ef9-0a25-3f4b-b00b5007b3de",
+    "catalog_url": "ftp://user:passwd@ftp.server.de/zalando_client_X_fr.csv.gz",
+    "last_modified": "2016-08-12T10:00:16Z"
+  }
+]
+</code></pre>
+
+<blockquote>
+<p>Sample Request (specific feed)</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -v -X GET
+ -H <span class="s2">"Accept: application/x.zalando.catalog-feeds+json,application/x.problem+json"</span>
+ -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+ <span class="s2">"https://{Catalog API URL}/api/feeds?sales_channels=16a40c35-5ac3-4e39-a3e6-0d0d6047a6ae"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"sales_channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16a40c35-5ac3-4e39-a3e6-0d0d6047a6ae"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"catalog_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ftp://ftp-10393-148801272:8570771f@ftp.semtrack.de/zalando_client_X_de.csv.gz"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_modified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-12T10:00:16Z"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>Feed is short for Catalog Feed. Concretely, it is a CSV file with the complete catalog of products for a given Sales Channel assigned to the partner that owns the Sales Channel. This endpoint will not stream or download that CSV file, but will instead provide the link for it.</p>
+
+<p>A Feed is identified by a Sales Channel. So, a partner has the option to either get the Feed for a specific Sales Channel, or obtain all the Feeds for each Sales Channels held by this partner. This gives our partners the option to process those CSV files in whatever way they choose, as the sheer size of your average catalog is not something that should be queried on demand.</p>
+
+<h3 id="security">Security</h3>
+
+<p>The Feeds endpoint is protected by OAuth2. A Service-To-Service token is required to perform the request.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET /api/feeds?sales_channels={sales-channel-1,sales-channel-2}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sales_channels</td>
+<td>Query</td>
+<td>List (comma separated) of sales channels.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td> Header</td>
+<td>Service token used to authenticate the request. The token also helps validate that the sales channels in the request belong to the client making the request. </td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="getting-article-details">Getting Article Details</h2>
+
+<blockquote>
+<p>Sample Request</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X GET
+    -H <span class="s2">"Accept: application/x.zalando.articles+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"</span>
+    <span class="s2">"https://{Catalog API URL}/api/articles/su221d0pi-m11?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&amp;client_id=client_HS23eDa2"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight plaintext"><code>[
+  {
+    "id": "SU221D0PI-M11000S000",
+    "size": "S",
+    "price": {
+      "amount": 19.95,
+      "currency": "EUR"
+    },
+    "original_price": {
+      "amount": 19.95,
+      "currency": "EUR"
+    },
+    "available": true,
+    "stock": 3,
+    "partner": {
+      "id": "3293",
+      "name": "Superdry",
+      "detail_url": "https://www.zalando.de/superdry-top-khaki-twist-su221d0pi-m11.html"
+    }
+  },
+  {
+    "id": "SU221D0PI-M11000L000",
+    "size": "L",
+    "price": {
+      "amount": 19.95,
+      "currency": "EUR"
+    },
+    "original_price": {
+      "amount": 19.95,
+      "currency": "EUR"
+    },
+    "available": true,
+    "stock": 3,
+    "partner": {
+      "id": "3293",
+      "name": "Superdry",
+      "detail_url": "https://www.zalando.de/superdry-top-khaki-twist-su221d0pi-m11.html"
+    }
+  }
+]
+</code></pre>
+
+<p>If you used the above endpoint to get the feeds, then you now have a catalog of Zalando products. You will notice that the information about those products is not very complete. It is enough to show to the customer what is available, but it&rsquo;s missing some information, such as: pricing, sizes or updated stock. This is where the Article Details come in.</p>
+
+<p>Using the Config SKU clients can get the aforementioned details on the individual products (Simple SKUs). This is mainly used to show the customer the sizes available when he or she opens the product for more details.</p>
+
+<p>Speaking of the checkout process, this is the endpoint to get an up to date stock availability count, as well as the price to be submitted.</p>
+
+<p>Also note that the Feed is not mandatory to use this endpoint. A Config SKU is what is required, and that can come from different places.</p>
+
+<h3 id="security">Security</h3>
+
+<p>The Articles endpoint is public. Nevertheless, the origin (partner wise) of the requests is identified by the <code class="prettyprint">client_id</code> parameter. This allows us to get some control over the endpoint to prevent abuses.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET /api/articles/{config-sku}?sales_channel={sales-channel}&amp;client_id={client-id}</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>config_sku</td>
+<td>Path</td>
+<td>The config SKU of the article.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>client_id</td>
+<td>Query</td>
+<td>Client ID for the client making the request. Used to track the origin of the request.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>sales_channel</td>
+<td>Query</td>
+<td>Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price.</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+          <h1 id="errors">Errors</h1>
+
+<p>Error cases are handled in the same way across our services. We strive to use proper HTTP codes for the different cases, and use the same object format for errors in every endpoint. As can be seen in our API specs, the content type <code class="prettyprint">x.application/problem+json</code> is specified for said error cases. Please refer to the API spec for the specification of that content type.</p>
+
+<p>Our components use the following error codes. Specific meanings are described in the section for the individual operations. Here you&rsquo;ll find a more common definition for the different error codes.</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400 - Bad Request</td>
+<td>The input provided with the request is invalid. Information can be missing, invalid, or in a wrong format.</td>
+</tr>
+<tr>
+<td>401 - Unauthorized</td>
+<td>Your token is not valid or wrong</td>
+</tr>
+<tr>
+<td>403 - Forbidden</td>
+<td>The resource requested is hidden for administrators only</td>
+</tr>
+<tr>
+<td>404 - Not Found</td>
+<td>The specified violation could not be found</td>
+</tr>
+<tr>
+<td>406 - Not Acceptable</td>
+<td>You requested a format that isn&rsquo;t json</td>
+</tr>
+<tr>
+<td>429 - Too Many Requests</td>
+<td>The rate of request is too high. Some requests will be dropped.</td>
+</tr>
+<tr>
+<td>500 - Internal Server Error</td>
+<td>We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503 - Service Unavailable</td>
+<td>We&rsquo;re temporarily offline for maintenance. Please try again later.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="shell">cURL</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
