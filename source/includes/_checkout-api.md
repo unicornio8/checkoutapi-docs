@@ -32,6 +32,24 @@ What makes this flow possible is having some default data for addresses and paym
 
 After choosing the article(s), a customer needs only to confirm the default data to create the order. And that is it!
 
+Let's take a look at a more visual example of the Happy Path.
+
+### Press the 'Buy Now' button
+
+<img src="images/press-buy-button.png" >
+
+### Select your size
+
+<img src="images/select-size.png" >
+
+### Confirm default selections
+
+<img src="images/confirm-checkout.png" >
+
+### Sit back and wait for your order to be delivered
+
+<img src="images/order-confirmed.png" >
+
 ## Long Path (aka Complete Checkout Process)
 
 The flow described in the above section is the ideal one. As was mentioned, some default selections need to be there already. For active Zalando customers this should all be in place already. For new customers this won't be the case. A customer that just registered won't have any defaults and will have to submit all of the required data. For those, here is the expected path:
@@ -46,6 +64,48 @@ The flow described in the above section is the ideal one. As was mentioned, some
  8. [Create an order](#creating-an-order)
 
 A lot more work compared with the previous flow, right? Fortunately, after this first experience the customer can expect the [happy path](#happy-path) in subsequent visits to the app or website.
+
+Let's take a look at a more visual example of the Happy Path.
+
+### Press the 'Buy Now' button
+
+<img src="images/press-buy-button.png" >
+
+### Select your size
+
+<img src="images/select-size.png" >
+
+### Connect with Zalando
+
+<img src="images/no-selections.png" >
+
+### Login
+
+<img src="images/login.png" >
+
+### Or register
+
+<img src="images/register-customer.png" >
+
+### Give consent
+
+<img src="images/give-consent.png" >
+
+### Input addresses
+
+<img src="images/input-address.png" >
+
+### Select payment method
+
+<img src="images/select-payment-method.png" >
+
+### Confirm selections
+
+<img src="images/confirm-checkout.png" >
+
+### Sit back and wait for your order to be delivered
+
+<img src="images/order-confirmed.png" >
 
 ## Address Operations
 
