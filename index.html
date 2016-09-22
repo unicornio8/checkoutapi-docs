@@ -1168,7 +1168,9 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 
 <p>Assuming that everything is OK with the articles and addresses, we are left with the payment step. There are two options here: the customer already has the default payment method selected (look into the <code class="prettyprint">payment</code> field); customer has no default payment method, or wishes to use a different one. For the first case the checkout process can proceed to order creation. For the second case the customer must be redirected to the payment selection page indicated by the <code class="prettyprint">selection_page_url</code> field.</p>
 
-<p>The payment selection is done outside of our components. When the selection is done, then customers will be redirected back to the checkout. This will require a redirect URL provided by the client of our API. Worth noticing is the <code class="prettyprint">payment.external_payment</code> flag. When set to true, clients of the API can already provide the customer with the information that they will be redirected to an external page after order creation. More details on payment in the <a href="#payment">Payment section</a>.</p>
+<p>The payment selection is done outside of our components. Using the link in the <code class="prettyprint">selection_page_url</code> field, customers are directed to a page where the selection of the payment method is done. After they&rsquo;re finished, customers will be redirected back to the checkout. This will require a redirect URL provided by the client of our API, which is sent by our component to the payment component. To know which payment method was selected clients of the API need to <a href="#getting-the-checkout">get the checkout object</a> to get an updated version.</p>
+
+<p>Worth noticing is the <code class="prettyprint">payment.external_payment</code> flag. When set to true, clients of the API can already provide the customer with the information that they will be redirected to an external page after order creation (for example, for payments with PayPal). More details on payment in the <a href="#payment">Payment section</a>.</p>
 
 <h3 id="request">Request</h3>
 
@@ -1661,6 +1663,33 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tbody></table>
 
 <h2 id="payment">Payment</h2>
+
+<p>Payment is the last step in the checkout process. After the customer confirmed everything (articles and addresses), then it&rsquo;s time to specify the payment method. Here you&rsquo;ll find some information about the payment step. Because payment is not owned by Atlas, nor do we act as a gateway to it, information here is limited, but enough to know how to interact with our component during the payment step. For any questions feel free to reach out to team Atlas.</p>
+
+<p>As mentioned above, payment is done in an individual component that does not belong to team Atlas. One of the reasons for this is PCI compliance. This means that customers will be directed to a separate website where they will select the payment method, and input whatever information is necessary to purchase with that method. Fortunately, Zalando&rsquo;s payment component allows customization, which enables a seamless transition. From our customers&rsquo; perspective it can all have the same look and feel.</p>
+
+<p>Zalando offers its customers a wide selection of payment methods in the different countries that Zalando operates in. That selection includes some classics like Credit Card, Bank Transfer, PayPal, Invoice, and a few others. The real offering depends on quite a few factors, such as, but not limited to:</p>
+
+<ul>
+<li>Country - some methods are exclusive for a country, or are not available in a country.</li>
+<li>Amount - depending on the total amount some methods may not be available.</li>
+<li>Address type - the addresses the customer submits may have a hand in the list of possible payment methods (you cannot choose Cash-On-Delivery if you deliver to a Packstation, for example).</li>
+</ul>
+
+<p>After selecting the method that the customer wants to pay his or her order with, will most likely come a step to input some information. For credit cards, for example, you will have to submit the number, CVV, and expiration date. Some payment methods, however, require an extra step. PayPal data is not provided during the payment selection step, for example. And some Credit Card payments will add an extra authentication step, 3-D Secure (3DS). The two examples given will take place after order creation. Let&rsquo;s look at the flow with PayPal:</p>
+
+<ul>
+<li>Customer picks PayPal.</li>
+<li>Customer is redirected back to the checkout overview.</li>
+<li>Customer confirms everything, and presses the &#39;Buy&rsquo; button.</li>
+<li>Order is created, but in a preliminary state.</li>
+<li>Customer gets redirected to the PayPal site, to input his or her PayPal account details.</li>
+<li>The success of failure is communicated through the redirect link provided by the API clients.</li>
+</ul>
+
+<p>Regarding the state of the order, in case of success it will be complete. In case of failure, the order will remain as preliminary for some time (the time period is not controlled by team Atlas). During that time customers can still try to pay for their order. After that, the order will be canceled.</p>
+
+<p>To know how all of this takes place in the checkout process using our component, please read the section to <a href="#creating-a-checkout">create a checkout</a>.</p>
 
           <h1 id="catalog-api">Catalog API</h1>
 
