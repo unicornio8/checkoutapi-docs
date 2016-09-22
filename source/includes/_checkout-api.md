@@ -1068,5 +1068,8 @@ After selecting the method that the customer wants to pay his or her order with,
 * Customer confirms everything, and presses the 'Buy' button.
 * Order is created, but in a preliminary state.
 * Customer gets redirected to the PayPal site, to input his or her PayPal account details.
+* The success of failure is communicated through the redirect link provided by the API clients.
+
+Regarding the state of the order, in case of success it will be complete. In case of failure, the order will remain as preliminary for some time (the time period is not controlled by team Atlas). During that time customers can still try to pay for their order. After that, the order will be canceled.
 
 To know how all of this takes place in the checkout process using our component, please read the section to [create a checkout](#creating-a-checkout).
