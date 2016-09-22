@@ -694,7 +694,9 @@ Notice that the response also does not include the articles being ordered. You c
 
 Assuming that everything is OK with the articles and addresses, we are left with the payment step. There are two options here: the customer already has the default payment method selected (look into the `payment` field); customer has no default payment method, or wishes to use a different one. For the first case the checkout process can proceed to order creation. For the second case the customer must be redirected to the payment selection page indicated by the `selection_page_url` field.
 
-The payment selection is done outside of our components. When the selection is done, then customers will be redirected back to the checkout. This will require a redirect URL provided by the client of our API. Worth noticing is the `payment.external_payment` flag. When set to true, clients of the API can already provide the customer with the information that they will be redirected to an external page after order creation. More details on payment in the [Payment section](#payment).
+The payment selection is done outside of our components. Using the link in the `selection_page_url` field, customers are directed to a page where the selection of the payment method is done. After they're finished, customers will be redirected back to the checkout. This will require a redirect URL provided by the client of our API, which is sent by our component to the payment component. To know which payment method was selected clients of the API need to [get the checkout object](#getting-the-checkout) to get an updated version.
+
+Worth noticing is the `payment.external_payment` flag. When set to true, clients of the API can already provide the customer with the information that they will be redirected to an external page after order creation (for example, for payments with PayPal). More details on payment in the [Payment section](#payment).
 
 ### Request
 
@@ -1048,3 +1050,26 @@ order_number | Path | The order number | Yes
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested order belongs to the user making the request. The token also gives information about the API client so that the result is filtered to return the data only if the order was placed via a sales channel of that Zalando partner | Yes
 
 ## Payment
+
+Payment is the last step in the checkout process. After the customer confirmed everything (articles and addresses), then it's time to specify the payment method. Here you'll find some information about the payment step. Because payment is not owned by Atlas, nor do we act as a gateway to it, information here is limited, but enough to know how to interact with our component during the payment step. For any questions feel free to reach out to team Atlas.
+
+As mentioned above, payment is done in an individual component that does not belong to team Atlas. One of the reasons for this is PCI compliance. This means that customers will be directed to a separate website where they will select the payment method, and input whatever information is necessary to purchase with that method. Fortunately, Zalando's payment component allows customization, which enables a seamless transition. From our customers' perspective it can all have the same look and feel.
+
+Zalando offers its customers a wide selection of payment methods in the different countries that Zalando operates in. That selection includes some classics like Credit Card, Bank Transfer, PayPal, Invoice, and a few others. The real offering depends on quite a few factors, such as, but not limited to:
+
+* Country - some methods are exclusive for a country, or are not available in a country.
+* Amount - depending on the total amount some methods may not be available.
+* Address type - the addresses the customer submits may have a hand in the list of possible payment methods (you cannot choose Cash-On-Delivery if you deliver to a Packstation, for example).
+
+After selecting the method that the customer wants to pay his or her order with, will most likely come a step to input some information. For credit cards, for example, you will have to submit the number, CVV, and expiration date. Some payment methods, however, require an extra step. PayPal data is not provided during the payment selection step, for example. And some Credit Card payments will add an extra authentication step, 3-D Secure (3DS). The two examples given will take place after order creation. Let's look at the flow with PayPal:
+
+* Customer picks PayPal.
+* Customer is redirected back to the checkout overview.
+* Customer confirms everything, and presses the 'Buy' button.
+* Order is created, but in a preliminary state.
+* Customer gets redirected to the PayPal site, to input his or her PayPal account details.
+* The success of failure is communicated through the redirect link provided by the API clients.
+
+Regarding the state of the order, in case of success it will be complete. In case of failure, the order will remain as preliminary for some time (the time period is not controlled by team Atlas). During that time customers can still try to pay for their order. After that, the order will be canceled.
+
+To know how all of this takes place in the checkout process using our component, please read the section to [create a checkout](#creating-a-checkout).
