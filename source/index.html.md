@@ -5,7 +5,7 @@ language_tabs:
   - shell: cURL
 
 toc_footers:
-  - <a href='https://github.bus.zalan.do/Atlas'>Atlas</a>
+  - <a href='https://github.com/zalando-incubator/checkoutapi-docs'>Atlas</a>
 
 includes:
   - introduction
