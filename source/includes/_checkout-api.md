@@ -160,7 +160,7 @@ This endpoint is mostly useful during checkout when the customer would like to s
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in. | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in. | Yes
 OAuth token | Header | Customer token used to authenticate the request. It will also identify the customer issuing the request, and with it the addresses to return | Yes
 
 ## Reading a single address
@@ -204,7 +204,7 @@ This endpoint will find its use across the checkout process. Whenever an address
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in. | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in. | Yes
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested address belongs to the user making the request. | Yes
 address_id | Path | ID of the customer address | Yes
 
@@ -288,7 +288,7 @@ Whether because a new customer is going through the checkout process or an exist
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
 OAuth token | Header | Customer token used to authenticate the request. The token specifies under which user the address will be created. | Yes
 Address creation request object | Body | Address details | Yes
 
@@ -347,7 +347,7 @@ Also like the create address endpoint, they are useful when the customer is pick
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
 OAuth token | Header | Customer token used to authenticate the request. Used to validate if the address to be changed belongs to the customer issuing the request. | Yes
 address_id | Path | ID of the customer address | Yes
 Address update request object | Body | Address details | Yes
@@ -371,7 +371,7 @@ Although it might seem that this functionality has little use in the checkout pr
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
 OAuth token | Header | Customer token used to authenticate the request. Used to validate if the address to be deleted belongs to the customer issuing the request. | Yes
 address_id | Path | ID of the customer address | Yes
 
@@ -503,7 +503,7 @@ The starting point for any checkout process. Or so it should be used. A client c
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. This is relevant to specify the sales channel under which the cart will be created, and the content ultimately sold. | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to specify the sales channel under which the cart will be created, and the content ultimately sold. | Yes
 OAuth token | Header | Customer token used to authenticate the request. | Yes
 Cart creation request object | Body | Specifies the content of the cart, and the sales channel where the items are being sold. | Yes
 
@@ -563,7 +563,7 @@ It is important to notice that the body for this request should include all the 
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. This is important to validate whether the cart was created under the same sales channel | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is important to validate whether the cart was created under the same sales channel | Yes
 OAuth token | Header | Customer token used to authenticate the request. Used to validate if the cart to be changed belongs to the customer issuing the request. | Yes
 cart_id | Path | The ID of the Cart | Yes
 Cart update request object | Body | Specifies the content of the cart. After creation, only the items can be changed. | Yes
@@ -616,7 +616,7 @@ This endpoint returns the same information than the ones above. Its usefulness c
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. This is important to validate whether the cart was created under the same sales channel | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is important to validate whether the cart was created under the same sales channel | Yes
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested cart belongs to the user making the request. | Yes
 cart_id | Path | The ID of the Cart | Yes
 
@@ -716,7 +716,7 @@ Worth noticing is the `payment.external_payment` flag. When set to true, clients
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. The cart specified in the body will have to belong to the same sales channel | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. The cart specified in the body will have to belong to the same sales channel | Yes
 X-Forwarded-For | Header | IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order | No
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the cart and addresses being used belong to the user making the request | Yes
 Checkout creation request object | Body | Input that clients can/need to provide for checkout creation | Yes
@@ -793,7 +793,7 @@ The response is the same object than in checkout creation, so the same considera
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. The cart originally used to create the checkout will have to belong to the same sales channel | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. The cart originally used to create the checkout will have to belong to the same sales channel | Yes
 X-Forwarded-For | Header | IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order | No
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the cart and addresses being used belong to the user making the request | Yes
 checkout_id | Path | ID of the checkout | Yes
@@ -868,7 +868,7 @@ All operations done on the checkout object can (and should) be done in the check
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. The cart originally used to create the checkout will have to belong to the same sales channel | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. The cart originally used to create the checkout will have to belong to the same sales channel | Yes
 X-Forwarded-For | Header | IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order | No
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested checkout belongs to the user making the request | Yes
 checkout_id | Path | ID of the checkout | Yes
@@ -943,7 +943,7 @@ After order creation there might be a final step for payment. Clients of the API
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. The checkout passed in the body will have to belong to the same sales channel | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. The checkout passed in the body will have to belong to the same sales channel | Yes
 X-Forwarded-For | Header | IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order | No
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the checkout provided to create the order belongs to the user making the request | Yes
 Order creation request object | Body | Input that clients can/need to provide for order creation | Yes
@@ -999,7 +999,7 @@ Orders returned are limited to those that were made by the client issuing the re
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. Only orders created under the same sales channel will be returned | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. Only orders created under the same sales channel will be returned | Yes
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested order belongs to the user making the request. The token also gives information about the API client so that the result is filtered to return the data only if the order was placed via a sales channel of that Zalando partner | Yes
 limit | Query | Maximum number of orders returned | No
 created_since | Query | Minimum creation date for orders | No
@@ -1065,7 +1065,7 @@ The last two endpoints are read only operations, which means that operations lik
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-X-Sales-Channel | Header | Used to specify under which sales channel the request belongs to. Only if the order was created under the same sales channel will it be returned | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. Only if the order was created under the same sales channel will it be returned | Yes
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested order belongs to the user making the request. The token also gives information about the API client so that the result is filtered to return the data only if the order was placed via a sales channel of that Zalando partner | Yes
 order_number | Path | The order number | Yes
 
