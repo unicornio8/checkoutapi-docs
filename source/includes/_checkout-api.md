@@ -123,7 +123,8 @@ All Address endpoints are protected by OAuth2. A Customer token is required to p
 curl -X GET
     -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
     -H "Accept: application/x.zalando.customer.addresses+json; application/x.problem+json"
-    "https://{Checkout API URL}/api/addresses?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&client_id=client_HS23eDa2"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
+    "https://{Checkout API URL}/api/addresses?client_id=client_HS23eDa2"
 ```
 
 > Sample Response
@@ -155,11 +156,11 @@ This endpoint is mostly useful during checkout when the customer would like to s
 
 ### Request
 
-`GET /api/addresses?sales_channel={sales_channel}`
+`GET /api/addresses`
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-sales_channel | Query | Used to specify under which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in. | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in. | Yes
 OAuth token | Header | Customer token used to authenticate the request. It will also identify the customer issuing the request, and with it the addresses to return | Yes
 
 ## Reading a single address
@@ -169,8 +170,9 @@ OAuth token | Header | Customer token used to authenticate the request. It will 
 ```shell
 curl -X GET
     -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
-    -H "Accept: application/x.zalando.customer.address+json; application/x.problem+json" \
-    "https://{Checkout API URL}/api/addresses/1?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&client_id=client_HS23eDa2"
+    -H "Accept: application/x.zalando.customer.address+json; application/x.problem+json"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
+    "https://{Checkout API URL}/api/addresses/1"
 ```
 
 > Sample Response
@@ -198,13 +200,13 @@ This endpoint will find its use across the checkout process. Whenever an address
 
 ### Request
 
-`GET /api/addresses/{address_id}?sales_channel={sales_channel}`
+`GET /api/addresses/{address_id}`
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-sales_channel | Query | Used to specify under which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in. | Yes
-address_id | Path | ID of the customer address | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in. | Yes
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested address belongs to the user making the request. | Yes
+address_id | Path | ID of the customer address | Yes
 
 ## Creating an address <a name="create-address"></a>
 
@@ -215,6 +217,7 @@ curl -X POST
     -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
     -H "Content-Type: application/x.zalando.customer.address.create+json;charset=UTF-8"
     -H "Accept: application/x.zalando.customer.address.create.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
     -d '{
          "customer_number": 1,
          "gender": "MALE",
@@ -228,7 +231,7 @@ curl -X POST
          "default_billing": true,
          "default_shipping": false
        }'
-    "https://{Checkout API URL}/api/addresses?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
+    "https://{Checkout API URL}/api/addresses"
 ```
 
 > Sample Response
@@ -281,11 +284,11 @@ Whether because a new customer is going through the checkout process or an exist
 
 ### Request
 
-`POST /api/addresses?sales_channel={sales_channel}`
+`POST /api/addresses`
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-sales_channel | Query | Used to specify under which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
 OAuth token | Header | Customer token used to authenticate the request. The token specifies under which user the address will be created. | Yes
 Address creation request object | Body | Address details | Yes
 
@@ -299,6 +302,7 @@ curl -X PUT
     -H "Accept: application/x.zalando.customer.address.update.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"
     -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
     -H "If-Match: *"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
     -d '{
         "id": "1",
         "customer_number": 1,
@@ -312,7 +316,7 @@ curl -X PUT
         "default_billing": true,
         "default_shipping": true
       }'
-    "https://{Checkout API URL}/api/addresses/1?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
+    "https://{Checkout API URL}/api/addresses/1"
 ```
 
 > Sample Response
@@ -339,13 +343,13 @@ Also like the create address endpoint, they are useful when the customer is pick
 
 ### Request
 
-`PUT /api/addresses/{address_id}?sales_channel={sales_channel}`
+`PUT /api/addresses/{address_id}`
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-sales_channel | Query | Used to specify under which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
-address_id | Path | ID of the customer address | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
 OAuth token | Header | Customer token used to authenticate the request. Used to validate if the address to be changed belongs to the customer issuing the request. | Yes
+address_id | Path | ID of the customer address | Yes
 Address update request object | Body | Address details | Yes
 
 ## Deleting an address
@@ -355,20 +359,21 @@ Address update request object | Body | Address details | Yes
 ```shell
 curl -X DELETE
     -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
-    "https://{Checkout API URL}/api/addresses/6428413?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
+    "https://{Checkout API URL}/api/addresses/1"
 ```
 
 Although it might seem that this functionality has little use in the checkout process, it was still included with the user experience in mind. The previous endpoints allow a customer to manage his or her address book, to a point. Makes sense to make it feature complete and provide the delete functionality. This way a customer can get rid of some old addresses and make the use of the address book on a mobile screen (for example) much simpler.
 
 ### Request
 
-`DELETE /api/addresses/{address_id}?sales_channel={sales_channel}`
+`DELETE /api/addresses/{address_id}`
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-sales_channel | Query | Used to specify under which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
-address_id | Path | ID of the customer address | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
 OAuth token | Header | Customer token used to authenticate the request. Used to validate if the address to be deleted belongs to the customer issuing the request. | Yes
+address_id | Path | ID of the customer address | Yes
 
 ## Address Check
 
@@ -413,11 +418,15 @@ Some additional information about the status returned in the response object (yo
 
  * `CORRECT`: Address is correct and valid for use
  * `NORMALIZED`: Address is valid, but the normalized form (field `normalized_address` in the AddressCheckResponse type) should be suggested to the user to safeguard the processing of the order
- * `NOT_CORRECT`: Address was not recognised. User should be notified of this, since it might impact the processing of the order, but the choice to progress should still be given (address might be of a new street or building that is not yet recognised).
+ * `NOT_CORRECT`: Address was not recognized. User should be notified of this, since it might impact the processing of the order, but the choice to progress should still be given (address might be of a new street or building that is not yet recognised).
 
 ### Request
 
 `POST /address-checks`
+
+Parameter | Type | Description | Required
+--------- | ---- | ----------- | --------
+OAuth token | Header | Customer token used to authenticate the request. | Yes
 
 ## Cart Operations
 
@@ -438,8 +447,8 @@ curl -X POST
     -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
     -H "Accept: application/x.zalando.cart.create.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"
     -H "Content-Type: application/x.zalando.cart.create+json;charset=UTF-8"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
     -d '{
-            "sales_channel" : "16b43f36-5ef9-0a25-3f4b-b00b5007b3de",
             "items" : [
                 {
                     "sku" : "GU1L13R38-K135784412",
@@ -460,7 +469,6 @@ curl -X POST
 ```json
 {
   "id": "b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
-  "sales_channel": "16b43f36-5ef9-0a25-3f4b-b00b5007b3de",
   "items": [
     {
         "sku" : "D123GSAR1-1JL579242",
@@ -495,6 +503,7 @@ The starting point for any checkout process. Or so it should be used. A client c
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to specify the sales channel under which the cart will be created, and the content ultimately sold. | Yes
 OAuth token | Header | Customer token used to authenticate the request. | Yes
 Cart creation request object | Body | Specifies the content of the cart, and the sales channel where the items are being sold. | Yes
 
@@ -507,6 +516,7 @@ curl -X PUT
     -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
     -H "Accept: application/x.zalando.cart.items.update.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"
     -H "Content-Type: application/x.zalando.cart.items.update+json;charset=UTF-8"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
     -d '[
             {
                 "sku": "D123GSAR1-1JL579242",
@@ -521,7 +531,6 @@ curl -X PUT
 ```json
 {
   "id": "b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
-  "sales_channel": "16b43f36-5ef9-0a25-3f4b-b00b5007b3de",
   "items": [
     {
         "sku" : "D123GSAR1-1JL579242",
@@ -554,8 +563,9 @@ It is important to notice that the body for this request should include all the 
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-cart_id | Path | The ID of the Cart | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is important to validate whether the cart was created under the same sales channel | Yes
 OAuth token | Header | Customer token used to authenticate the request. Used to validate if the cart to be changed belongs to the customer issuing the request. | Yes
+cart_id | Path | The ID of the Cart | Yes
 Cart update request object | Body | Specifies the content of the cart. After creation, only the items can be changed. | Yes
 
 ## Getting the cart
@@ -567,6 +577,7 @@ curl -X GET
     -H "Accept: application/x.zalando.cart+json"
     -H "If-None-Match: *"
     -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
     "https://{Checkout API URL}/api/carts/b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"
 ```
 
@@ -575,7 +586,6 @@ curl -X GET
 ```json
 {
   "id": "b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
-  "sales_channel": "16b43f36-5ef9-0a25-3f4b-b00b5007b3de",
   "items": [
     {
         "sku" : "D123GSAR1-1JL579242",
@@ -606,8 +616,9 @@ This endpoint returns the same information than the ones above. Its usefulness c
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-cart_id | Path | The ID of the Cart | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is important to validate whether the cart was created under the same sales channel | Yes
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested cart belongs to the user making the request. | Yes
+cart_id | Path | The ID of the Cart | Yes
 
 ## Checkout Operations
 
@@ -630,6 +641,7 @@ curl -X POST
     -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
     -H "Content-Type: application/x.zalando.customer.checkout.create+json;charset=UTF-8"
     -H "Accept: application/x.zalando.customer.checkout.create.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
     -d '{
             "cart_id":"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
             "shipping_address_id": "1",
@@ -704,8 +716,9 @@ Worth noticing is the `payment.external_payment` flag. When set to true, clients
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the cart and addresses being used belong to the user making the request | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. The cart specified in the body will have to belong to the same sales channel | Yes
 X-Forwarded-For | Header | IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order | No
+OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the cart and addresses being used belong to the user making the request | Yes
 Checkout creation request object | Body | Input that clients can/need to provide for checkout creation | Yes
 
 ## Changing the checkout
@@ -780,9 +793,10 @@ The response is the same object than in checkout creation, so the same considera
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-checkout_id | Path | ID of the checkout | Yes
-OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the cart and addresses being used belong to the user making the request | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. The cart originally used to create the checkout will have to belong to the same sales channel | Yes
 X-Forwarded-For | Header | IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order | No
+OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the cart and addresses being used belong to the user making the request | Yes
+checkout_id | Path | ID of the checkout | Yes
 Checkout update request object | Body | Input that clients can change in the checkout | Yes
 
 ## Getting the checkout
@@ -854,9 +868,10 @@ All operations done on the checkout object can (and should) be done in the check
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-checkout_id | Path | ID of the checkout | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. The cart originally used to create the checkout will have to belong to the same sales channel | Yes
 X-Forwarded-For | Header | IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order | No
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested checkout belongs to the user making the request | Yes
+checkout_id | Path | ID of the checkout | Yes
 
 ## Order operations
 
@@ -928,8 +943,9 @@ After order creation there might be a final step for payment. Clients of the API
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the checkout provided to create the order belongs to the user making the request | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. The checkout passed in the body will have to belong to the same sales channel | Yes
 X-Forwarded-For | Header | IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order | No
+OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the checkout provided to create the order belongs to the user making the request | Yes
 Order creation request object | Body | Input that clients can/need to provide for order creation | Yes
 
 ## Getting a list of orders
@@ -940,6 +956,7 @@ Order creation request object | Body | Input that clients can/need to provide fo
 curl -X GET
     -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
     -H "Accept: application/x.zalando.customer.orders+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
     "https://{Checkout API URL}/api/orders?limit=4&created_since=2016-04-16T00:00:00.000Z"
 ```
 
@@ -982,10 +999,11 @@ Orders returned are limited to those that were made by the client issuing the re
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. Only orders created under the same sales channel will be returned | Yes
+OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested order belongs to the user making the request. The token also gives information about the API client so that the result is filtered to return the data only if the order was placed via a sales channel of that Zalando partner | Yes
 limit | Query | Maximum number of orders returned | No
 created_since | Query | Minimum creation date for orders | No
 created_until | Query | Maximum creation date for orders | No
-OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested order belongs to the user making the request. The token also gives information about the API client so that the result is filtered to return the data only if the order was placed via a sales channel of that Zalando partner | Yes
 
 ## Getting the order details
 
@@ -995,6 +1013,7 @@ OAuth token | Header | Customer token used to authenticate the request. The toke
 curl -X GET
     -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
     -H "Accept: application/x.zalando.customer.order+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
     "https://{Checkout API URL}/api/orders/10"
 ```
 
@@ -1046,8 +1065,9 @@ The last two endpoints are read only operations, which means that operations lik
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
-order_number | Path | The order number | Yes
+X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. Only if the order was created under the same sales channel will it be returned | Yes
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested order belongs to the user making the request. The token also gives information about the API client so that the result is filtered to return the data only if the order was placed via a sales channel of that Zalando partner | Yes
+order_number | Path | The order number | Yes
 
 ## Payment
 
