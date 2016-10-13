@@ -634,7 +634,7 @@ All Checkout endpoints are protected by OAuth2. A Customer token is required to 
 
 ## Creating a checkout
 
-> Sample Request
+> Sample Request (with address IDs)
 
 ```shell
 curl -X POST
@@ -646,6 +646,44 @@ curl -X POST
             "cart_id":"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
             "shipping_address_id": "1",
             "billing_address_id": "2"
+        }'
+    "https://{Checkout API URL}/api/checkouts"
+```
+
+
+> Sample Request (with complete addresses)
+
+```shell
+curl -X POST
+    -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
+    -H "Content-Type: application/x.zalando.customer.checkout.create+json;charset=UTF-8"
+    -H "Accept: application/x.zalando.customer.checkout.create.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
+    -d '{
+            "cart_id":"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
+            "billing_address": {
+              "gender": "MALE",
+              "first_name": "John",
+              "last_name": "Doe",
+              "street": "Mollstr. 1",
+              "additional": "EG",
+              "zip": 10178,
+              "city": "Berlin",
+              "country_code": "DE"
+            },
+            "shipping_address": {
+                "gender": "MALE",
+                "first_name": "John",
+                "last_name": "Doe",
+                "zip": 10178,
+                "city": "Berlin",
+                "country_code": "DE",
+                "pickup_point": {
+                    "name": "PACKSTATION",
+                    "id": 123,
+                    "member_id": 12345678
+                }
+            }
         }'
     "https://{Checkout API URL}/api/checkouts"
 ```
@@ -702,6 +740,16 @@ curl -X POST
 
 Creation of the checkout object requires only the cart ID and the addresses to be used. And the latter is actually optional. When not present, the default addresses for billing and shipping will be used. As for the articles being checked out, everything is taken from the cart.
 
+To create a checkout you need two addresses (billing and shipping), as you can see in the sample requests. Billing needs to be a standard Home address. For shipping there are two additional options: Packstation and Pick Up Point. To allow the use of pick up points, and the use of temporary addresses (addresses that are not stored in the customer's address book), we also allow calling this endpoint with a complete address instead of the address ID.
+
+Let's take a closer look at the different ways to specify the checkout addresses. The following is valid for either the Billing or Shipping address:
+
+ * No address field: The corresponding default address is taken from the customer's address book. If no default address exists a 409 will be returned.
+ * Address ID field: The address with the corresponding ID will be loaded from the customer's address book. If the specified address is not found, a 409 will be returned.
+ * Full address field: The address will be used in the checkout, but not stored in the customer's address book. To use a pick up point, this is the only way available, given that it is not allowed to store pick up points in the customer's address book.
+
+Important to notice, is that the three options to provide addresses are mutually exclusive. Clients of the API can either send one or the other, but never both. For example, sending values in `billing_address` and `billing_address_id` will result in a 400 error. But you can send the `billing_address` and the `shipping_address_id`. The reason for this behavior is to set clear expectations from the client to the API, and vice versa. This way it is always clear which address should be used. Giving preference to one field over the other would not be completely clear to the API because there is no way of knowing which one the client intended to use, nor would it be to the client which one was used, and why.
+
 Notice that the response also does not include the articles being ordered. You can get that using the endpoint to get the [cart content](#getting-the-cart).
 
 Assuming that everything is OK with the articles and addresses, we are left with the payment step. There are two options here: the customer already has the default payment method selected (look into the `payment` field); customer has no default payment method, or wishes to use a different one. For the first case the checkout process can proceed to order creation. For the second case the customer must be redirected to the payment selection page indicated by the `selection_page_url` field.
@@ -723,7 +771,7 @@ Checkout creation request object | Body | Input that clients can/need to provide
 
 ## Changing the checkout
 
-> Sample Request
+> Sample Request (with address IDs)
 
 ```shell
 curl -X PUT
@@ -731,8 +779,43 @@ curl -X PUT
     -H "Content-Type: application/x.zalando.customer.checkout.update+json;charset=UTF-8"
     -H "Accept: application/x.zalando.customer.checkout.update.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
     -d '{
-            "shipping_address_id": "4",
-            "billing_address_id": "3"
+            "billing_address_id": "10",
+            "shipping_address_is": "11"
+        }'
+    "https://{Checkout API URL}/api/checkouts/VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"
+```
+
+> Sample Request (with complete addresses)
+
+```shell
+curl -X PUT
+    -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
+    -H "Content-Type: application/x.zalando.customer.checkout.update+json;charset=UTF-8"
+    -H "Accept: application/x.zalando.customer.checkout.update.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
+    -d '{
+            "billing_address": {
+              "gender": "MALE",
+              "first_name": "John",
+              "last_name": "Doe",
+              "street": "Mollstr. 1",
+              "additional": "EG",
+              "zip": 10178,
+              "city": "Berlin",
+              "country_code": "DE"
+            },
+            "shipping_address": {
+                "gender": "MALE",
+                "first_name": "John",
+                "last_name": "Doe",
+                "zip": 10178,
+                "city": "Berlin",
+                "country_code": "DE",
+                "pickup_point": {
+                    "name": "PACKSTATION",
+                    "id": 123,
+                    "member_id": 12345678
+                }
+            }
         }'
     "https://{Checkout API URL}/api/checkouts/VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"
 ```
@@ -783,7 +866,9 @@ curl -X PUT
 }
 ```
 
-Of all the elements of the checkout, addresses are the only ones that can be changed without impact on the overall checkout process. In the future we will support different shipping methods, which will be available for changing after checkout creation.
+Of all the elements of the checkout addresses are the only ones that can be changed without impact on the overall checkout process. In the future we will support different shipping methods, which will be available for changing after checkout creation.
+
+Like in checkout creation addresses, can be specified via ID, a complete address, or no value at all (default address in the address book will be used). The mutual exclusivity of the address specification follows the same behavior as the creation step.
 
 The response is the same object than in checkout creation, so the same considerations taken for creation are valid here.
 
