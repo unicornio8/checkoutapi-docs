@@ -458,8 +458,7 @@ curl -X POST
                     "sku" : "D123GSAR1-1JL579242",
                     "quantity" : 2
                 }
-            ],
-            "replace_items": true
+            ]
         }'
     "https://{Checkout API URL}/api/carts"
 ```
@@ -493,9 +492,7 @@ curl -X POST
 
 This endpoint will provide our Checkout API with the items the customer wishes to buy. It is also here that the prices will be locked for the customer.
 
-The flag `replace_items`, when set to true (its default value), will clear the cart of existing items, if any. If set to false, it will add the items of the request to the ones already present in the cart. A valid use case for this field is when a customer with an anonymous cart logs in, and the API client can merge the items of the anonymous cart with the items that a customer may, or may not, have in his or her cart.
-
-The starting point for any checkout process. Or so it should be used. A client could hold the cart ID and use it in future checkouts by removing all the items from it, but we strongly recommend to always start a checkout with this endpoint. Even if the customer will proceed adding items to cart, and move to the checkout step later.
+The starting point for any checkout process, or so it should be used. A client could hold the cart ID and use it in future checkouts by updating it, but we strongly recommend to always start a checkout with this endpoint, even if the customer will proceed adding items to cart and move to the checkout step later.
 
 ### Request
 
@@ -507,23 +504,25 @@ X-Sales-Channel | Header | Used to specify to which sales channel the request be
 OAuth token | Header | Customer token used to authenticate the request. | Yes
 Cart creation request object | Body | Specifies the content of the cart, and the sales channel where the items are being sold. | Yes
 
-## Managing items in a cart
+## Changing a cart
 
 > Sample Request
 
 ```shell
 curl -X PUT
     -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
-    -H "Accept: application/x.zalando.cart.items.update.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"
-    -H "Content-Type: application/x.zalando.cart.items.update+json;charset=UTF-8"
+    -H "Accept: application/x.zalando.cart.update.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"
+    -H "Content-Type: application/x.zalando.cart.update+json;charset=UTF-8"
     -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
-    -d '[
-            {
-                "sku": "D123GSAR1-1JL579242",
-                "quantity": "1"
-            }
-        ]'
-    "https://{Checkout API URL}/api/carts/b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3/items"
+    -d '{
+            "items" : [
+                {
+                    "sku" : "D123GSAR1-1JL579242",
+                    "quantity" : 1
+                }
+            ]
+        }'
+    "https://{Checkout API URL}/api/carts/b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"
 ```
 
 > Sample Response
@@ -553,9 +552,9 @@ curl -X PUT
 }
 ```
 
-Assuming a typical use of the cart endpoints, the first article added by the customer will trigger the creation of the cart. Subsequent articles will be added with this endpoint.
+Assuming a typical use of the cart endpoints, the first articles added by the customer will trigger the creation of the cart. Subsequent articles will be added with this endpoint.
 
-It is important to notice that the body for this request should include all the items that should be in the cart, and not only the items being added or removed. This may seem like overhead, but it makes it clear at all times (or requests) what is supposed to be the content of the cart.
+It is important to notice that the body for this request should include all the items that should be in the cart and not only the items being added or removed. This may seem like overhead, but it makes it clear at all times (or requests) what is supposed to be the content of the cart.
 
 ### Request
 
