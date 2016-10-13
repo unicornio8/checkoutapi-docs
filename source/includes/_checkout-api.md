@@ -256,7 +256,7 @@ curl -X POST
 Creating addresses is done with this endpoint. There are some rules that should be made clear when performing this request. First, when an address is created it is not assigned to either billing or shipping, unless the `default_billing` or `default_shipping` flags are set. The addresses of a customer are like an address book that can be used for one purpose or the other.
 
 There are, however, some constraints. A Pick up point type address cannot be used as a billing address. You can see an example Pick up point on the [right](#pick-up-point-example).
-Speaking of Pick up points, we currently differentiate them between Packstation, and non-Packstations. The reason for this is that Packstation do not need a Street, whereas the remaining Pick up points do. For a Packstation, the combination of zip code + city + Packstation ID is enough to identify the Packstation.
+Speaking of Pick up points, we currently differentiate them between Packstation, and non-Packstations. The reason for this is that Packstation does not need a Street, whereas the remaining Pick up points do. For a Packstation, the combination of zip code + city + Packstation ID is enough to identify the Packstation. Currently non-Packstations Pick up points cannot be stored in the customer's address book. To find out more about how to use them take a look at the [Create a checkout](#creating-a-checkout) section.
 
 > Example of a Pick up point address <a name="pick-up-point-example"></a>
 
