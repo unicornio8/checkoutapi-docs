@@ -110,7 +110,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='https://github.bus.zalan.do/Atlas'>Atlas</a></li>
+            <li><a href='https://github.com/zalando-incubator/checkoutapi-docs'>Atlas</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -429,7 +429,8 @@ Don&rsquo;t forget to check the API spec!</a>
 <pre class="highlight shell"><code>curl -X GET
     -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
     -H <span class="s2">"Accept: application/x.zalando.customer.addresses+json; application/x.problem+json"</span>
-    <span class="s2">"https://{Checkout API URL}/api/addresses?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&amp;client_id=client_HS23eDa2"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
+    <span class="s2">"https://{Checkout API URL}/api/addresses?client_id=client_HS23eDa2"</span>
 </code></pre>
 
 <blockquote>
@@ -461,7 +462,7 @@ An empty array is returned if there are no addresses for that customer, in the c
 
 <h3 id="request">Request</h3>
 
-<p><code class="prettyprint">GET /api/addresses?sales_channel={sales_channel}</code></p>
+<p><code class="prettyprint">GET /api/addresses</code></p>
 
 <table><thead>
 <tr>
@@ -472,9 +473,9 @@ An empty array is returned if there are no addresses for that customer, in the c
 </tr>
 </thead><tbody>
 <tr>
-<td>sales_channel</td>
-<td>Query</td>
-<td>Used to specify under which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in.</td>
+<td>X-Sales-Channel</td>
+<td>Header</td>
+<td>Used to specify to which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in.</td>
 <td> Yes</td>
 </tr>
 <tr>
@@ -492,8 +493,9 @@ An empty array is returned if there are no addresses for that customer, in the c
 </blockquote>
 <pre class="highlight shell"><code>curl -X GET
     -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
-    -H <span class="s2">"Accept: application/x.zalando.customer.address+json; application/x.problem+json"</span> <span class="se">\</span>
-    <span class="s2">"https://{Checkout API URL}/api/addresses/1?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&amp;client_id=client_HS23eDa2"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.address+json; application/x.problem+json"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
+    <span class="s2">"https://{Checkout API URL}/api/addresses/1"</span>
 </code></pre>
 
 <blockquote>
@@ -521,7 +523,7 @@ An empty array is returned if there are no addresses for that customer, in the c
 
 <h3 id="request">Request</h3>
 
-<p><code class="prettyprint">GET /api/addresses/{address_id}?sales_channel={sales_channel}</code></p>
+<p><code class="prettyprint">GET /api/addresses/{address_id}</code></p>
 
 <table><thead>
 <tr>
@@ -532,21 +534,21 @@ An empty array is returned if there are no addresses for that customer, in the c
 </tr>
 </thead><tbody>
 <tr>
-<td>sales_channel</td>
-<td>Query</td>
-<td>Used to specify under which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in.</td>
+<td>X-Sales-Channel</td>
+<td>Header</td>
+<td>Used to specify to which sales channel the request belongs to. This is relevant to obtain addresses filtered by the countries the sales channel operates in.</td>
 <td> Yes</td>
-</tr>
-<tr>
-<td>address_id</td>
-<td>Path</td>
-<td>ID of the customer address</td>
-<td>Yes</td>
 </tr>
 <tr>
 <td>OAuth token</td>
 <td>Header</td>
 <td>Customer token used to authenticate the request. The token also helps validate that the requested address belongs to the user making the request.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>address_id</td>
+<td>Path</td>
+<td>ID of the customer address</td>
 <td>Yes</td>
 </tr>
 </tbody></table>
@@ -560,6 +562,7 @@ An empty array is returned if there are no addresses for that customer, in the c
     -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
     -H <span class="s2">"Content-Type: application/x.zalando.customer.address.create+json;charset=UTF-8"</span>
     -H <span class="s2">"Accept: application/x.zalando.customer.address.create.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
     -d <span class="s1">'{
          "customer_number": 1,
          "gender": "MALE",
@@ -573,7 +576,7 @@ An empty array is returned if there are no addresses for that customer, in the c
          "default_billing": true,
          "default_shipping": false
        }'</span>
-    <span class="s2">"https://{Checkout API URL}/api/addresses?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
+    <span class="s2">"https://{Checkout API URL}/api/addresses"</span>
 </code></pre>
 
 <blockquote>
@@ -598,7 +601,7 @@ An empty array is returned if there are no addresses for that customer, in the c
 <p>Creating addresses is done with this endpoint. There are some rules that should be made clear when performing this request. First, when an address is created it is not assigned to either billing or shipping, unless the <code class="prettyprint">default_billing</code> or <code class="prettyprint">default_shipping</code> flags are set. The addresses of a customer are like an address book that can be used for one purpose or the other.</p>
 
 <p>There are, however, some constraints. A Pick up point type address cannot be used as a billing address. You can see an example Pick up point on the <a href="#pick-up-point-example">right</a>.
-Speaking of Pick up points, we currently differentiate them between Packstation, and non-Packstations. The reason for this is that Packstation do not need a Street, whereas the remaining Pick up points do. For a Packstation, the combination of zip code + city + Packstation ID is enough to identify the Packstation.</p>
+Speaking of Pick up points, we currently differentiate them between Packstation, and non-Packstations. The reason for this is that Packstation does not need a Street, whereas the remaining Pick up points do. For a Packstation, the combination of zip code + city + Packstation ID is enough to identify the Packstation. Currently non-Packstations Pick up points cannot be stored in the customer&rsquo;s address book. To find out more about how to use them take a look at the <a href="#creating-a-checkout">Create a checkout</a> section.</p>
 
 <blockquote>
 <p>Example of a Pick up point address <a name="pick-up-point-example"></a></p>
@@ -626,7 +629,7 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 
 <h3 id="request">Request</h3>
 
-<p><code class="prettyprint">POST /api/addresses?sales_channel={sales_channel}</code></p>
+<p><code class="prettyprint">POST /api/addresses</code></p>
 
 <table><thead>
 <tr>
@@ -637,9 +640,9 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </thead><tbody>
 <tr>
-<td>sales_channel</td>
-<td>Query</td>
-<td>Used to specify under which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in.</td>
+<td>X-Sales-Channel</td>
+<td>Header</td>
+<td>Used to specify to which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in.</td>
 <td> Yes</td>
 </tr>
 <tr>
@@ -666,6 +669,7 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
     -H <span class="s2">"Accept: application/x.zalando.customer.address.update.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
     -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
     -H <span class="s2">"If-Match: *"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
     -d <span class="s1">'{
         "id": "1",
         "customer_number": 1,
@@ -679,7 +683,7 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
         "default_billing": true,
         "default_shipping": true
       }'</span>
-    <span class="s2">"https://{Checkout API URL}/api/addresses/1?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
+    <span class="s2">"https://{Checkout API URL}/api/addresses/1"</span>
 </code></pre>
 
 <blockquote>
@@ -706,7 +710,7 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 
 <h3 id="request">Request</h3>
 
-<p><code class="prettyprint">PUT /api/addresses/{address_id}?sales_channel={sales_channel}</code></p>
+<p><code class="prettyprint">PUT /api/addresses/{address_id}</code></p>
 
 <table><thead>
 <tr>
@@ -717,21 +721,21 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </thead><tbody>
 <tr>
-<td>sales_channel</td>
-<td>Query</td>
-<td>Used to specify under which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in.</td>
+<td>X-Sales-Channel</td>
+<td>Header</td>
+<td>Used to specify to which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in.</td>
 <td> Yes</td>
-</tr>
-<tr>
-<td>address_id</td>
-<td>Path</td>
-<td>ID of the customer address</td>
-<td>Yes</td>
 </tr>
 <tr>
 <td>OAuth token</td>
 <td>Header</td>
 <td>Customer token used to authenticate the request. Used to validate if the address to be changed belongs to the customer issuing the request.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>address_id</td>
+<td>Path</td>
+<td>ID of the customer address</td>
 <td>Yes</td>
 </tr>
 <tr>
@@ -749,14 +753,15 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </blockquote>
 <pre class="highlight shell"><code>curl -X DELETE
     -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
-    <span class="s2">"https://{Checkout API URL}/api/addresses/6428413?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
+    <span class="s2">"https://{Checkout API URL}/api/addresses/1"</span>
 </code></pre>
 
 <p>Although it might seem that this functionality has little use in the checkout process, it was still included with the user experience in mind. The previous endpoints allow a customer to manage his or her address book, to a point. Makes sense to make it feature complete and provide the delete functionality. This way a customer can get rid of some old addresses and make the use of the address book on a mobile screen (for example) much simpler.</p>
 
 <h3 id="request">Request</h3>
 
-<p><code class="prettyprint">DELETE /api/addresses/{address_id}?sales_channel={sales_channel}</code></p>
+<p><code class="prettyprint">DELETE /api/addresses/{address_id}</code></p>
 
 <table><thead>
 <tr>
@@ -767,21 +772,21 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </thead><tbody>
 <tr>
-<td>sales_channel</td>
-<td>Query</td>
-<td>Used to specify under which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in.</td>
+<td>X-Sales-Channel</td>
+<td>Header</td>
+<td>Used to specify to which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in.</td>
 <td> Yes</td>
-</tr>
-<tr>
-<td>address_id</td>
-<td>Path</td>
-<td>ID of the customer address</td>
-<td>Yes</td>
 </tr>
 <tr>
 <td>OAuth token</td>
 <td>Header</td>
 <td>Customer token used to authenticate the request. Used to validate if the address to be deleted belongs to the customer issuing the request.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>address_id</td>
+<td>Path</td>
+<td>ID of the customer address</td>
 <td>Yes</td>
 </tr>
 </tbody></table>
@@ -830,12 +835,28 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 <ul>
 <li><code class="prettyprint">CORRECT</code>: Address is correct and valid for use</li>
 <li><code class="prettyprint">NORMALIZED</code>: Address is valid, but the normalized form (field <code class="prettyprint">normalized_address</code> in the AddressCheckResponse type) should be suggested to the user to safeguard the processing of the order</li>
-<li><code class="prettyprint">NOT_CORRECT</code>: Address was not recognised. User should be notified of this, since it might impact the processing of the order, but the choice to progress should still be given (address might be of a new street or building that is not yet recognised).</li>
+<li><code class="prettyprint">NOT_CORRECT</code>: Address was not recognized. User should be notified of this, since it might impact the processing of the order, but the choice to progress should still be given (address might be of a new street or building that is not yet recognised).</li>
 </ul>
 
 <h3 id="request">Request</h3>
 
 <p><code class="prettyprint">POST /address-checks</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request.</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
 
 <h2 id="cart-operations">Cart Operations</h2>
 
@@ -856,8 +877,8 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
     -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
     -H <span class="s2">"Accept: application/x.zalando.cart.create.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
     -H <span class="s2">"Content-Type: application/x.zalando.cart.create+json;charset=UTF-8"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
     -d <span class="s1">'{
-            "sales_channel" : "16b43f36-5ef9-0a25-3f4b-b00b5007b3de",
             "items" : [
                 {
                     "sku" : "GU1L13R38-K135784412",
@@ -867,8 +888,7 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
                     "sku" : "D123GSAR1-1JL579242",
                     "quantity" : 2
                 }
-            ],
-            "replace_items": true
+            ]
         }'</span>
     <span class="s2">"https://{Checkout API URL}/api/carts"</span>
 </code></pre>
@@ -878,7 +898,6 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"sales_channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
         </span><span class="nt">"sku"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"D123GSAR1-1JL579242"</span><span class="p">,</span><span class="w">
@@ -903,9 +922,7 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 
 <p>This endpoint will provide our Checkout API with the items the customer wishes to buy. It is also here that the prices will be locked for the customer.</p>
 
-<p>The flag <code class="prettyprint">replace_items</code>, when set to true (its default value), will clear the cart of existing items, if any. If set to false, it will add the items of the request to the ones already present in the cart. A valid use case for this field is when a customer with an anonymous cart logs in, and the API client can merge the items of the anonymous cart with the items that a customer may, or may not, have in his or her cart.</p>
-
-<p>The starting point for any checkout process. Or so it should be used. A client could hold the cart ID and use it in future checkouts by removing all the items from it, but we strongly recommend to always start a checkout with this endpoint. Even if the customer will proceed adding items to cart, and move to the checkout step later.</p>
+<p>The starting point for any checkout process, or so it should be used. A client could hold the cart ID and use it in future checkouts by updating it, but we strongly recommend to always start a checkout with this endpoint, even if the customer will proceed adding items to cart and move to the checkout step later.</p>
 
 <h3 id="request">Request</h3>
 
@@ -920,6 +937,12 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </thead><tbody>
 <tr>
+<td>X-Sales-Channel</td>
+<td>Header</td>
+<td>Used to specify to which sales channel the request belongs to. This is relevant to specify the sales channel under which the cart will be created, and the content ultimately sold.</td>
+<td> Yes</td>
+</tr>
+<tr>
 <td>OAuth token</td>
 <td>Header</td>
 <td>Customer token used to authenticate the request.</td>
@@ -933,22 +956,25 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </tbody></table>
 
-<h2 id="managing-items-in-a-cart">Managing items in a cart</h2>
+<h2 id="changing-a-cart">Changing a cart</h2>
 
 <blockquote>
 <p>Sample Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl -X PUT
     -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
-    -H <span class="s2">"Accept: application/x.zalando.cart.items.update.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
-    -H <span class="s2">"Content-Type: application/x.zalando.cart.items.update+json;charset=UTF-8"</span>
-    -d <span class="s1">'[
-            {
-                "sku": "D123GSAR1-1JL579242",
-                "quantity": "1"
-            }
-        ]'</span>
-    <span class="s2">"https://{Checkout API URL}/api/carts/b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3/items"</span>
+    -H <span class="s2">"Accept: application/x.zalando.cart.update.response+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
+    -H <span class="s2">"Content-Type: application/x.zalando.cart.update+json;charset=UTF-8"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
+    -d <span class="s1">'{
+            "items" : [
+                {
+                    "sku" : "D123GSAR1-1JL579242",
+                    "quantity" : 1
+                }
+            ]
+        }'</span>
+    <span class="s2">"https://{Checkout API URL}/api/carts/b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span>
 </code></pre>
 
 <blockquote>
@@ -956,7 +982,6 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"sales_channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
         </span><span class="nt">"sku"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"D123GSAR1-1JL579242"</span><span class="p">,</span><span class="w">
@@ -979,9 +1004,9 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Assuming a typical use of the cart endpoints, the first article added by the customer will trigger the creation of the cart. Subsequent articles will be added with this endpoint.</p>
+<p>Assuming a typical use of the cart endpoints, the first articles added by the customer will trigger the creation of the cart. Subsequent articles will be added with this endpoint.</p>
 
-<p>It is important to notice that the body for this request should include all the items that should be in the cart, and not only the items being added or removed. This may seem like overhead, but it makes it clear at all times (or requests) what is supposed to be the content of the cart.</p>
+<p>It is important to notice that the body for this request should include all the items that should be in the cart and not only the items being added or removed. This may seem like overhead, but it makes it clear at all times (or requests) what is supposed to be the content of the cart.</p>
 
 <h3 id="request">Request</h3>
 
@@ -996,15 +1021,21 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </thead><tbody>
 <tr>
-<td>cart_id</td>
-<td>Path</td>
-<td>The ID of the Cart</td>
-<td>Yes</td>
+<td>X-Sales-Channel</td>
+<td>Header</td>
+<td>Used to specify to which sales channel the request belongs to. This is important to validate whether the cart was created under the same sales channel</td>
+<td> Yes</td>
 </tr>
 <tr>
 <td>OAuth token</td>
 <td>Header</td>
 <td>Customer token used to authenticate the request. Used to validate if the cart to be changed belongs to the customer issuing the request.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>cart_id</td>
+<td>Path</td>
+<td>The ID of the Cart</td>
 <td>Yes</td>
 </tr>
 <tr>
@@ -1024,6 +1055,7 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
     -H <span class="s2">"Accept: application/x.zalando.cart+json"</span>
     -H <span class="s2">"If-None-Match: *"</span>
     -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
     <span class="s2">"https://{Checkout API URL}/api/carts/b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span>
 </code></pre>
 
@@ -1032,7 +1064,6 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"sales_channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
         </span><span class="nt">"sku"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"D123GSAR1-1JL579242"</span><span class="p">,</span><span class="w">
@@ -1070,15 +1101,21 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </thead><tbody>
 <tr>
-<td>cart_id</td>
-<td>Path</td>
-<td>The ID of the Cart</td>
-<td>Yes</td>
+<td>X-Sales-Channel</td>
+<td>Header</td>
+<td>Used to specify to which sales channel the request belongs to. This is important to validate whether the cart was created under the same sales channel</td>
+<td> Yes</td>
 </tr>
 <tr>
 <td>OAuth token</td>
 <td>Header</td>
 <td>Customer token used to authenticate the request. The token also helps validate that the requested cart belongs to the user making the request.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>cart_id</td>
+<td>Path</td>
+<td>The ID of the Cart</td>
 <td>Yes</td>
 </tr>
 </tbody></table>
@@ -1098,16 +1135,54 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 <h2 id="creating-a-checkout">Creating a checkout</h2>
 
 <blockquote>
-<p>Sample Request</p>
+<p>Sample Request (with address IDs)</p>
 </blockquote>
 <pre class="highlight shell"><code>curl -X POST
     -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
     -H <span class="s2">"Content-Type: application/x.zalando.customer.checkout.create+json;charset=UTF-8"</span>
     -H <span class="s2">"Accept: application/x.zalando.customer.checkout.create.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
     -d <span class="s1">'{
             "cart_id":"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
             "shipping_address_id": "1",
             "billing_address_id": "2"
+        }'</span>
+    <span class="s2">"https://{Checkout API URL}/api/checkouts"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Request (with complete addresses)</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X POST
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Content-Type: application/x.zalando.customer.checkout.create+json;charset=UTF-8"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.checkout.create.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
+    -d <span class="s1">'{
+            "cart_id":"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
+            "billing_address": {
+              "gender": "MALE",
+              "first_name": "John",
+              "last_name": "Doe",
+              "street": "Mollstr. 1",
+              "additional": "EG",
+              "zip": 10178,
+              "city": "Berlin",
+              "country_code": "DE"
+            },
+            "shipping_address": {
+                "gender": "MALE",
+                "first_name": "John",
+                "last_name": "Doe",
+                "zip": 10178,
+                "city": "Berlin",
+                "country_code": "DE",
+                "pickup_point": {
+                    "name": "PACKSTATION",
+                    "id": 123,
+                    "member_id": 12345678
+                }
+            }
         }'</span>
     <span class="s2">"https://{Checkout API URL}/api/checkouts"</span>
 </code></pre>
@@ -1164,6 +1239,18 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 
 <p>Creation of the checkout object requires only the cart ID and the addresses to be used. And the latter is actually optional. When not present, the default addresses for billing and shipping will be used. As for the articles being checked out, everything is taken from the cart.</p>
 
+<p>To create a checkout you need two addresses (billing and shipping), as you can see in the sample requests. Billing needs to be a standard Home address. For shipping there are two additional options: Packstation and Pick Up Point. To allow the use of pick up points, and the use of temporary addresses (addresses that are not stored in the customer&rsquo;s address book), we also allow calling this endpoint with a complete address instead of the address ID.</p>
+
+<p>Let&rsquo;s take a closer look at the different ways to specify the checkout addresses. The following is valid for either the Billing or Shipping address:</p>
+
+<ul>
+<li>No address field: The corresponding default address is taken from the customer&rsquo;s address book. If no default address exists a 409 will be returned.</li>
+<li>Address ID field: The address with the corresponding ID will be loaded from the customer&rsquo;s address book. If the specified address is not found, a 409 will be returned.</li>
+<li>Full address field: The address will be used in the checkout, but not stored in the customer&rsquo;s address book. To use a pick up point, this is the only way available, given that it is not allowed to store pick up points in the customer&rsquo;s address book.</li>
+</ul>
+
+<p>Important to notice, is that the three options to provide addresses are mutually exclusive. Clients of the API can either send one or the other, but never both. For example, sending values in <code class="prettyprint">billing_address</code> and <code class="prettyprint">billing_address_id</code> will result in a 400 error. But you can send the <code class="prettyprint">billing_address</code> and the <code class="prettyprint">shipping_address_id</code>. The reason for this behavior is to set clear expectations from the client to the API, and vice versa. This way it is always clear which address should be used. Giving preference to one field over the other would not be completely clear to the API because there is no way of knowing which one the client intended to use, nor would it be to the client which one was used, and why.</p>
+
 <p>Notice that the response also does not include the articles being ordered. You can get that using the endpoint to get the <a href="#getting-the-cart">cart content</a>.</p>
 
 <p>Assuming that everything is OK with the articles and addresses, we are left with the payment step. There are two options here: the customer already has the default payment method selected (look into the <code class="prettyprint">payment</code> field); customer has no default payment method, or wishes to use a different one. For the first case the checkout process can proceed to order creation. For the second case the customer must be redirected to the payment selection page indicated by the <code class="prettyprint">selection_page_url</code> field.</p>
@@ -1185,16 +1272,22 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </thead><tbody>
 <tr>
-<td>OAuth token</td>
+<td>X-Sales-Channel</td>
 <td>Header</td>
-<td>Customer token used to authenticate the request. The token also helps validate that the cart and addresses being used belong to the user making the request</td>
-<td>Yes</td>
+<td>Used to specify to which sales channel the request belongs to. The cart specified in the body will have to belong to the same sales channel</td>
+<td> Yes</td>
 </tr>
 <tr>
 <td>X-Forwarded-For</td>
 <td>Header</td>
 <td>IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order</td>
 <td>No</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. The token also helps validate that the cart and addresses being used belong to the user making the request</td>
+<td>Yes</td>
 </tr>
 <tr>
 <td>Checkout creation request object</td>
@@ -1207,15 +1300,50 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 <h2 id="changing-the-checkout">Changing the checkout</h2>
 
 <blockquote>
-<p>Sample Request</p>
+<p>Sample Request (with address IDs)</p>
 </blockquote>
 <pre class="highlight shell"><code>curl -X PUT
     -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
     -H <span class="s2">"Content-Type: application/x.zalando.customer.checkout.update+json;charset=UTF-8"</span>
     -H <span class="s2">"Accept: application/x.zalando.customer.checkout.update.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"</span>
     -d <span class="s1">'{
-            "shipping_address_id": "4",
-            "billing_address_id": "3"
+            "billing_address_id": "10",
+            "shipping_address_is": "11"
+        }'</span>
+    <span class="s2">"https://{Checkout API URL}/api/checkouts/VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Request (with complete addresses)</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X PUT
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Content-Type: application/x.zalando.customer.checkout.update+json;charset=UTF-8"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.checkout.update.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"</span>
+    -d <span class="s1">'{
+            "billing_address": {
+              "gender": "MALE",
+              "first_name": "John",
+              "last_name": "Doe",
+              "street": "Mollstr. 1",
+              "additional": "EG",
+              "zip": 10178,
+              "city": "Berlin",
+              "country_code": "DE"
+            },
+            "shipping_address": {
+                "gender": "MALE",
+                "first_name": "John",
+                "last_name": "Doe",
+                "zip": 10178,
+                "city": "Berlin",
+                "country_code": "DE",
+                "pickup_point": {
+                    "name": "PACKSTATION",
+                    "id": 123,
+                    "member_id": 12345678
+                }
+            }
         }'</span>
     <span class="s2">"https://{Checkout API URL}/api/checkouts/VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"</span>
 </code></pre>
@@ -1266,7 +1394,9 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Of all the elements of the checkout, addresses are the only ones that can be changed without impact on the overall checkout process. In the future we will support different shipping methods, which will be available for changing after checkout creation.</p>
+<p>Of all the elements of the checkout addresses are the only ones that can be changed without impact on the overall checkout process. In the future we will support different shipping methods, which will be available for changing after checkout creation.</p>
+
+<p>Like in checkout creation addresses, can be specified via ID, a complete address, or no value at all (default address in the address book will be used). The mutual exclusivity of the address specification follows the same behavior as the creation step.</p>
 
 <p>The response is the same object than in checkout creation, so the same considerations taken for creation are valid here.</p>
 
@@ -1283,10 +1413,16 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </thead><tbody>
 <tr>
-<td>checkout_id</td>
-<td>Path</td>
-<td> ID of the checkout</td>
-<td>Yes</td>
+<td>X-Sales-Channel</td>
+<td>Header</td>
+<td>Used to specify to which sales channel the request belongs to. The cart originally used to create the checkout will have to belong to the same sales channel</td>
+<td> Yes</td>
+</tr>
+<tr>
+<td>X-Forwarded-For</td>
+<td>Header</td>
+<td>IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order</td>
+<td>No</td>
 </tr>
 <tr>
 <td>OAuth token</td>
@@ -1295,10 +1431,10 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 <td>Yes</td>
 </tr>
 <tr>
-<td>X-Forwarded-For</td>
-<td>Header</td>
-<td>IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order</td>
-<td>No</td>
+<td>checkout_id</td>
+<td>Path</td>
+<td> ID of the checkout</td>
+<td>Yes</td>
 </tr>
 <tr>
 <td>Checkout update request object</td>
@@ -1386,10 +1522,10 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </thead><tbody>
 <tr>
-<td>checkout_id</td>
-<td>Path</td>
-<td> ID of the checkout</td>
-<td>Yes</td>
+<td>X-Sales-Channel</td>
+<td>Header</td>
+<td>Used to specify to which sales channel the request belongs to. The cart originally used to create the checkout will have to belong to the same sales channel</td>
+<td> Yes</td>
 </tr>
 <tr>
 <td>X-Forwarded-For</td>
@@ -1401,6 +1537,12 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 <td>OAuth token</td>
 <td>Header</td>
 <td>Customer token used to authenticate the request. The token also helps validate that the requested checkout belongs to the user making the request</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>checkout_id</td>
+<td>Path</td>
+<td> ID of the checkout</td>
 <td>Yes</td>
 </tr>
 </tbody></table>
@@ -1482,16 +1624,22 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </thead><tbody>
 <tr>
-<td>OAuth token</td>
+<td>X-Sales-Channel</td>
 <td>Header</td>
-<td>Customer token used to authenticate the request. The token also helps validate that the checkout provided to create the order belongs to the user making the request</td>
-<td>Yes</td>
+<td>Used to specify to which sales channel the request belongs to. The checkout passed in the body will have to belong to the same sales channel</td>
+<td> Yes</td>
 </tr>
 <tr>
 <td>X-Forwarded-For</td>
 <td>Header</td>
 <td>IP of the customer device issuing the request. If not present, it will be taken from the request that our components get. If the request IP does not match the geographical area where the customer is making his or her order, then there is the possibility that risk assessment will raise some red flags and cancel the order</td>
 <td>No</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. The token also helps validate that the checkout provided to create the order belongs to the user making the request</td>
+<td>Yes</td>
 </tr>
 <tr>
 <td>Order creation request object</td>
@@ -1509,6 +1657,7 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 <pre class="highlight shell"><code>curl -X GET
     -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
     -H <span class="s2">"Accept: application/x.zalando.customer.orders+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
     <span class="s2">"https://{Checkout API URL}/api/orders?limit=4&amp;created_since=2016-04-16T00:00:00.000Z"</span>
 </code></pre>
 
@@ -1558,6 +1707,18 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </thead><tbody>
 <tr>
+<td>X-Sales-Channel</td>
+<td>Header</td>
+<td>Used to specify to which sales channel the request belongs to. Only orders created under the same sales channel will be returned</td>
+<td> Yes</td>
+</tr>
+<tr>
+<td>OAuth token</td>
+<td>Header</td>
+<td>Customer token used to authenticate the request. The token also helps validate that the requested order belongs to the user making the request. The token also gives information about the API client so that the result is filtered to return the data only if the order was placed via a sales channel of that Zalando partner</td>
+<td>Yes</td>
+</tr>
+<tr>
 <td>limit</td>
 <td>Query</td>
 <td>Maximum number of orders returned</td>
@@ -1575,12 +1736,6 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 <td>Maximum creation date for orders</td>
 <td>No</td>
 </tr>
-<tr>
-<td>OAuth token</td>
-<td>Header</td>
-<td>Customer token used to authenticate the request. The token also helps validate that the requested order belongs to the user making the request. The token also gives information about the API client so that the result is filtered to return the data only if the order was placed via a sales channel of that Zalando partner</td>
-<td>Yes</td>
-</tr>
 </tbody></table>
 
 <h2 id="getting-the-order-details">Getting the order details</h2>
@@ -1591,6 +1746,7 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 <pre class="highlight shell"><code>curl -X GET
     -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
     -H <span class="s2">"Accept: application/x.zalando.customer.order+json;charset=UTF-8, application/x.problem+json;charset=UTF-8"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
     <span class="s2">"https://{Checkout API URL}/api/orders/10"</span>
 </code></pre>
 
@@ -1649,15 +1805,21 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </thead><tbody>
 <tr>
-<td>order_number</td>
-<td>Path</td>
-<td>The order number</td>
-<td>Yes</td>
+<td>X-Sales-Channel</td>
+<td>Header</td>
+<td>Used to specify to which sales channel the request belongs to. Only if the order was created under the same sales channel will it be returned</td>
+<td> Yes</td>
 </tr>
 <tr>
 <td>OAuth token</td>
 <td>Header</td>
 <td>Customer token used to authenticate the request. The token also helps validate that the requested order belongs to the user making the request. The token also gives information about the API client so that the result is filtered to return the data only if the order was placed via a sales channel of that Zalando partner</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>order_number</td>
+<td>Path</td>
+<td>The order number</td>
 <td>Yes</td>
 </tr>
 </tbody></table>
