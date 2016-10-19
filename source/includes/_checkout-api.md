@@ -957,6 +957,229 @@ X-Forwarded-For | Header | IP of the customer device issuing the request. If not
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the requested checkout belongs to the user making the request | Yes
 checkout_id | Path | ID of the checkout | Yes
 
+## Coupons
+
+> Sample Request (with address IDs) and coupons
+
+```shell
+curl -X POST
+    -H "Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"
+    -H "Content-Type: application/x.zalando.customer.checkout.create+json;charset=UTF-8"
+    -H "Accept: application/x.zalando.customer.checkout.create.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
+    -d '{
+            "cart_id":"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
+            "shipping_address_id": "1",
+            "billing_address_id": "2",
+            "coupons": [
+                "COUPON_ID"
+            ]
+        }'
+    "https://{Checkout API URL}/api/checkouts"
+```
+
+> Sample Response for relative or absolute coupons
+
+```json
+{
+  "id": "VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc",
+  "customer_number": 1,
+  "cart_id": "b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
+  "billing_address": {
+    "id": 1,
+    "gender": "MALE",
+    "first_name": "John",
+    "last_name": "Doe",
+    "street": "Mollstr. 1",
+    "additional": "EG",
+    "zip": 10178,
+    "city": "Berlin",
+    "country_code": "DE"
+  },
+  "shipping_address": {
+    "id": 2,
+    "gender": "MALE",
+    "first_name": "John",
+    "last_name": "Doe",
+    "zip": 10178,
+    "city": "Berlin",
+    "country_code": "DE",
+    "pickup_point": {
+      "name": "PACKSTATION",
+      "id": 123,
+      "member_id": 12345678
+    }
+  },
+  "delivery": {
+    "earliest": "2015-04-21T13:27:31+01:00",
+    "latest": "2015-04-23T13:27:31+01:00"
+  },
+  "payment": {
+    "selected": {
+      "method": "CREDIT_CARD",
+      "metadata": {
+        "key_1": "value_1",
+        "key_2": "value_2"
+      },
+      "external_payment": true
+    },
+    "selection_page_url": "https://{Payment Selection URL}/ae45f19"
+  },
+  "coupon_details": [
+    {
+      "coupon": "COUPON_ID",
+      "discount": {
+        "gross": {
+          "amount": -5,
+          "currency": "EUR"
+        },
+        "tax": {
+          "amount": -0.8,
+          "currency": "EUR"
+        }
+      }
+    }
+  ]
+}
+```
+
+> Sample Response for a relative coupon with maximum amount, with remaining discount available
+
+```json
+{
+  "id": "VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc",
+  "customer_number": 1,
+  "cart_id": "b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
+  "billing_address": {
+    "id": 1,
+    "gender": "MALE",
+    "first_name": "John",
+    "last_name": "Doe",
+    "street": "Mollstr. 1",
+    "additional": "EG",
+    "zip": 10178,
+    "city": "Berlin",
+    "country_code": "DE"
+  },
+  "shipping_address": {
+    "id": 2,
+    "gender": "MALE",
+    "first_name": "John",
+    "last_name": "Doe",
+    "zip": 10178,
+    "city": "Berlin",
+    "country_code": "DE",
+    "pickup_point": {
+      "name": "PACKSTATION",
+      "id": 123,
+      "member_id": 12345678
+    }
+  },
+  "delivery": {
+    "earliest": "2015-04-21T13:27:31+01:00",
+    "latest": "2015-04-23T13:27:31+01:00"
+  },
+  "payment": {
+    "selected": {
+      "method": "CREDIT_CARD",
+      "metadata": {
+        "key_1": "value_1",
+        "key_2": "value_2"
+      },
+      "external_payment": true
+    },
+    "selection_page_url": "https://{Payment Selection URL}/ae45f19"
+  },
+  "coupon_details": [
+    {
+      "coupon": "COUPON_ID",
+      "discount": {
+        "remaining": {
+          "amount": 965.72,
+          "currency": "EUR"
+        },
+        "gross": {
+          "amount": -114.28,
+          "currency": "EUR"
+        },
+        "tax": {
+          "amount": -18.24,
+          "currency": "EUR"
+        }
+      }
+    }
+  ]
+}
+```
+
+> Sample Response for a wrong coupon
+
+```json
+{
+  "id": "VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc",
+  "customer_number": 1,
+  "cart_id": "b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
+  "billing_address": {
+    "id": 1,
+    "gender": "MALE",
+    "first_name": "John",
+    "last_name": "Doe",
+    "street": "Mollstr. 1",
+    "additional": "EG",
+    "zip": 10178,
+    "city": "Berlin",
+    "country_code": "DE"
+  },
+  "shipping_address": {
+    "id": 2,
+    "gender": "MALE",
+    "first_name": "John",
+    "last_name": "Doe",
+    "zip": 10178,
+    "city": "Berlin",
+    "country_code": "DE",
+    "pickup_point": {
+      "name": "PACKSTATION",
+      "id": 123,
+      "member_id": 12345678
+    }
+  },
+  "delivery": {
+    "earliest": "2015-04-21T13:27:31+01:00",
+    "latest": "2015-04-23T13:27:31+01:00"
+  },
+  "payment": {
+    "selected": {
+      "method": "CREDIT_CARD",
+      "metadata": {
+        "key_1": "value_1",
+        "key_2": "value_2"
+      },
+      "external_payment": true
+    },
+    "selection_page_url": "https://{Payment Selection URL}/ae45f19"
+  },
+  "coupon_details": [
+    {
+      "coupon": "COUPON_ID",
+      "error": "Der Gutscheincode COUPON_ID existiert leider nicht. Versichere dich, dass du den richtigen Gutscheincode verwendest."
+    }
+  ]
+}
+```
+
+Right now it is possible to provide **only one coupon for each checkout**. **Updating** the checkout will **replace** the coupon.
+
+Coupon types available until now are:
+
+* **relative** &#8594; percentage value that will be applied on the total amount (example: 5% discount)
+* **relative with maximum amount** &#8594; same as the relative one, with an additional condition. You will get the discount until you reached a certain amount. (example: 5% discount until you reach 50€ of discount value over one or more checkouts. This means either one checkout with a total amount of 1000€ or on multiple checkouts with less total amount, until you reached 50€ of discount value)
+* **absolute** &#8594; fixed amount that will be subtracted from the total amount (example: 20€ discount)
+
+Error messages are translated automatically based on the `sales_channel` configuration.
+
+In case of any major problems we will send this code: `error.coupon-not-applied` and the coupon will not be applied.
+
 ## Order operations
 
 We are now entering the last step of the checkout process. The customer already selected everything that was required to create an order, confirmed everything, and pressed the button to create his or her order.
