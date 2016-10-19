@@ -621,7 +621,7 @@ cart_id | Path | The ID of the Cart | Yes
 
 ## Checkout Operations
 
-At the checkout step, customers will specify the addresses for billing and shipping, delivery options (which for the time being are limited to Standard delivery only), and the payment method. The payment selection, as well as any input regarding payment, is done outside of our components. For more information please check the [Payment section](#payment).
+At the checkout step, customers will specify the addresses for billing and shipping, delivery options, and the payment method. The payment selection, as well as any input regarding payment, is done outside of our components. For more information please check the [Payment section](#payment).
 
 Remaining purpose of the checkout operation is to confirm all the selections done by the customer, and make the necessary adjustments. Said adjustments are limited to the addresses and payment method. Changes to the articles being ordered requires starting all over. Two reasons for this are stock and price verification. Even for articles that were already in the cart, verifying stock and price is required. Not to mention recalculating the total cart value.
 
@@ -720,8 +720,17 @@ curl -X POST
     }
   },
   "delivery": {
+    "service": "STANDARD",
+      "cost": {
+        "amount": 0,
+        "currency": "EUR"
+      },
     "earliest": "2015-04-21T13:27:31+01:00",
-    "latest": "2015-04-23T13:27:31+01:00"
+    "latest": "2015-04-23T13:27:31+01:00",
+    "options": [
+          "STANDARD",
+          "EXPRESS"
+        ]
   },
   "payment": {
     "selected": {
@@ -747,7 +756,13 @@ Let's take a closer look at the different ways to specify the checkout addresses
  * Address ID field: The address with the corresponding ID will be loaded from the customer's address book. If the specified address is not found, a 409 will be returned.
  * Full address field: The address will be used in the checkout, but not stored in the customer's address book. To use a pick up point, this is the only way available, given that it is not allowed to store pick up points in the customer's address book.
 
-Important to notice, is that the three options to provide addresses are mutually exclusive. Clients of the API can either send one or the other, but never both. For example, sending values in `billing_address` and `billing_address_id` will result in a 400 error. But you can send the `billing_address` and the `shipping_address_id`. The reason for this behavior is to set clear expectations from the client to the API, and vice versa. This way it is always clear which address should be used. Giving preference to one field over the other would not be completely clear to the API because there is no way of knowing which one the client intended to use, nor would it be to the client which one was used, and why.
+Important to notice is that the three options to provide addresses are mutually exclusive. Clients of the API can either send one or the other, but never both. For example, sending values in `billing_address` and `billing_address_id` will result in a 400 error. But you can send the `billing_address` and the `shipping_address_id`. The reason for this behavior is to set clear expectations from the client to the API, and vice versa. This way it is always clear which address should be used. Giving preference to one field over the other would not be completely clear to the API because there is no way of knowing which one the client intended to use, nor would it be to the client which one was used, and why.
+
+After calling the endpoint, the response contains the `ìd` of the checkout, that should be used when [creating an order](#creating-an-order). It also returns the `customer_number` and the `cart_id` as well as the
+`shipping_adress` and `billing_adress`. Furthermore you can find `delivery`. This object contains the information for the delivery. It shows the the shipping method (`service`), its cost (`cost`), an estimated
+delivery date range (`earliest` and `latest`) and a list of available shipping methods (`options`).
+By default, the shipping method is set to `STANDARD`. The different methods depend on the items in your cart. If, for example, all of the items can be delivered via `STANDARD` and `EXPRESS`,
+then these options will be available in your checkout. If, however, one of your items can only be delivered via the `STANDARD` shipping method, then this will be the only service available for the whole checkout.
 
 Notice that the response also does not include the articles being ordered. You can get that using the endpoint to get the [cart content](#getting-the-cart).
 
@@ -768,9 +783,9 @@ X-Forwarded-For | Header | IP of the customer device issuing the request. If not
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the cart and addresses being used belong to the user making the request | Yes
 Checkout creation request object | Body | Input that clients can/need to provide for checkout creation | Yes
 
-## Changing the checkout
+## Updating the checkout
 
-> Sample Request (with address IDs)
+> Sample Request (with address IDs) with shipping method changed to express
 
 ```shell
 curl -X PUT
@@ -779,12 +794,15 @@ curl -X PUT
     -H "Accept: application/x.zalando.customer.checkout.update.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
     -d '{
             "billing_address_id": "10",
-            "shipping_address_is": "11"
+            "shipping_address_is": "11",
+            "delivery":{
+                	"service":"EXPRESS"
+                }
         }'
     "https://{Checkout API URL}/api/checkouts/VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"
 ```
 
-> Sample Request (with complete addresses)
+> Sample Request (with complete addresses) with shipping method changed to express
 
 ```shell
 curl -X PUT
@@ -814,6 +832,9 @@ curl -X PUT
                     "id": 123,
                     "member_id": 12345678
                 }
+            },
+            "delivery":{
+                "service":"EXPRESS"
             }
         }'
     "https://{Checkout API URL}/api/checkouts/VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"
@@ -848,9 +869,17 @@ curl -X PUT
     "country_code": "DE"
   },
   "delivery": {
-    "earliest": "2015-04-21T13:27:31+01:00",
-    "latest": "2015-04-23T13:27:31+01:00"
-  },
+      "service": "EXPRESS",
+      "cost": {
+        "amount": 7,
+        "currency": "EUR"
+      },
+      "earliest": "2016-10-19T22:00:00Z",
+      "latest": "2016-10-19T22:00:00Z",
+      "options": [
+        "STANDARD",
+        "EXPRESS"
+      ],
   "payment": {
     "selected": {
       "method": "CREDIT_CARD",
@@ -923,8 +952,17 @@ curl -X GET
     "country_code": "DE"
   },
   "delivery": {
+    "service": "STANDARD",
+      "cost": {
+        "amount": 0,
+        "currency": "EUR"
+      },
     "earliest": "2015-04-21T13:27:31+01:00",
-    "latest": "2015-04-23T13:27:31+01:00"
+    "latest": "2015-04-23T13:27:31+01:00",
+    "options": [
+          "STANDARD",
+          "EXPRESS"
+        ]
   },
   "payment": {
     "selected": {
