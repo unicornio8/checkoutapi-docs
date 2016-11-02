@@ -1547,6 +1547,231 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 </tr>
 </tbody></table>
 
+<h2 id="coupons">Coupons</h2>
+
+<blockquote>
+<p>Sample Request (with address IDs) and coupons</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X POST
+    -H <span class="s2">"Authorization: Bearer eyJraWQiOiJ0ZXN0a2V5LWVzMjU2IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzdHlsaWdodF9OMlZsWXpZIiwiYXpwIjoic3R5bGlnaHRfTjJWbFl6WSIsInNjb3BlIjpbImF0bGFzLWNhdGFsb2ctYXBpLmFydGljbGUucmVhZCIsImF0bGFzLWNhdGFsb2ctYXBpLmZlZWQucmVhZCIsImF0bGFzLWNoZWNrb3V0LWFwaS5jYXJ0LmFsbCIsImF6cCIsInVpZCJdLCJpc3MiOiJCIiwicmVhbG0iOiIvc2VydmljZXMiLCJleHAiOjE0NzEwMjQ3NjEsImlhdCI6MTQ3MDk5NTk2MX0.5yrnLBffEHml2nJ1JooQBb08R2MOD-WKGw70ov5zhJpYVZF9jmZh-W45yOohZpq_f-VVb8eMxPC524nZzHkdUg"</span>
+    -H <span class="s2">"Content-Type: application/x.zalando.customer.checkout.create+json;charset=UTF-8"</span>
+    -H <span class="s2">"Accept: application/x.zalando.customer.checkout.create.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"</span>
+    -H <span class="s2">"X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"</span>
+    -d <span class="s1">'{
+            "cart_id":"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3",
+            "shipping_address_id": "1",
+            "billing_address_id": "2",
+            "coupons": [
+                "COUPON_ID"
+            ]
+        }'</span>
+    <span class="s2">"https://{Checkout API URL}/api/checkouts"</span>
+</code></pre>
+
+<blockquote>
+<p>Sample Response for relative or absolute coupons</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"cart_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"billing_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mollstr. 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"additional"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10178</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"shipping_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10178</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pickup_point"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PACKSTATION"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"member_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12345678</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"delivery"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"earliest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-21T13:27:31+01:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"latest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-23T13:27:31+01:00"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"payment"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"selected"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CREDIT_CARD"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"key_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"key_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"external_payment"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"selection_page_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://{Payment Selection URL}/ae45f19"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"coupon_details"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"coupon"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COUPON_ID"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"discount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"gross"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">-5</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"tax"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.8</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>Sample Response for a relative coupon with maximum amount, with remaining discount available</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"cart_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"billing_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mollstr. 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"additional"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10178</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"shipping_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10178</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pickup_point"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PACKSTATION"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"member_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12345678</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"delivery"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"earliest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-21T13:27:31+01:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"latest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-23T13:27:31+01:00"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"payment"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"selected"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CREDIT_CARD"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"key_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"key_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"external_payment"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"selection_page_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://{Payment Selection URL}/ae45f19"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"coupon_details"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"coupon"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COUPON_ID"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"discount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"remaining"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">965.72</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"gross"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">-114.28</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"tax"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">-18.24</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>Sample Response for a wrong coupon</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"customer_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"cart_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b13fce609f084bbaac3e14265b9805dda309d7ca660311e68b7786f30ca893d3"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"billing_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mollstr. 1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"additional"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EG"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10178</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"shipping_address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MALE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="mi">10178</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Berlin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"country_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pickup_point"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PACKSTATION"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"member_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12345678</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"delivery"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"earliest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-21T13:27:31+01:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"latest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-23T13:27:31+01:00"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"payment"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"selected"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CREDIT_CARD"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"key_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"key_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"external_payment"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"selection_page_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://{Payment Selection URL}/ae45f19"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"coupon_details"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"coupon"</span><span class="p">:</span><span class="w"> </span><span class="s2">"COUPON_ID"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Der Gutscheincode COUPON_ID existiert leider nicht. Versichere dich, dass du den richtigen Gutscheincode verwendest."</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Right now it is possible to provide <strong>only one coupon for each checkout</strong>. <strong>Updating</strong> the checkout will <strong>replace</strong> the coupon.</p>
+
+<p>Coupon types available until now are:</p>
+
+<ul>
+<li><strong>relative</strong> &#8594; percentage value that will be applied on the total amount (example: 5% discount)</li>
+<li><strong>relative with maximum amount</strong> &#8594; same as the relative one, with an additional condition. You will get the discount until you reached a certain amount. (example: 5% discount until you reach 50€ of discount value over one or more checkouts. This means either one checkout with a total amount of 1000€ or on multiple checkouts with less total amount, until you reached 50€ of discount value)</li>
+<li><strong>absolute</strong> &#8594; fixed amount that will be subtracted from the total amount (example: 20€ discount)</li>
+</ul>
+
+<p>Error messages are translated automatically based on the <code class="prettyprint">sales_channel</code> configuration.</p>
+
+<p>In case of any major problems we will send this code: <code class="prettyprint">error.coupon-not-applied</code> and the coupon will not be applied.</p>
+
 <h2 id="order-operations">Order operations</h2>
 
 <p>We are now entering the last step of the checkout process. The customer already selected everything that was required to create an order, confirmed everything, and pressed the button to create his or her order.</p>
