@@ -152,3 +152,76 @@ Parameter | Type | Description | Required
 config_sku | Path | The config SKU of the article. | Yes
 client_id | Query | Client ID for the client making the request. Used to track the origin of the request. | Yes
 sales_channel | Query | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
+
+
+## Getting Article Recommendation
+
+> Sample Request
+
+```shell
+curl -X GET
+    -H "Accept: application/x.zalando.article.recommendation+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
+    "https://{Catalog API URL}/api/articles/lop21ddff-k12/recommendation?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&client_id=client_HS23eDa2"
+```
+
+> Sample Response
+
+```
+[
+  {
+    "id": "SU221D0PI-M11000S000",
+    "size": "S",
+    "price": {
+      "amount": 19.95,
+      "currency": "EUR"
+    },
+    "original_price": {
+      "amount": 19.95,
+      "currency": "EUR"
+    },
+    "available": true,
+    "stock": 3,
+    "partner": {
+      "id": "3293",
+      "name": "Superdry",
+      "detail_url": "https://www.zalando.de/superdry-top-khaki-twist-su221d0pi-m11.html"
+    }
+  },
+  {
+    "id": "ADB123456-H12000L000",
+    "size": "L",
+    "price": {
+      "amount": 99.88,
+      "currency": "EUR"
+    },
+    "original_price": {
+      "amount": 12.95,
+      "currency": "EUR"
+    },
+    "available": true,
+    "stock": 3,
+    "partner": {
+      "id": "3293",
+      "name": "Test",
+      "detail_url": "https://www.zalando.de/something-ADB123456-H12.html"
+    }
+  }
+]
+```
+
+With this call, you will get similar articles, which could then be presented on the product detail page;
+thereby, allowing customers to see other products without searching for them.
+
+### Security
+
+The Articles endpoint is public. Nevertheless, the origin (partner wise) of the requests is identified by the `client_id` parameter. This allows us to get some control over the endpoint to prevent abuses.
+
+### Request
+
+`GET /api/articles/{config-sku}/recommendation?sales_channel={sales-channel}&client_id={client-id}`
+
+Parameter | Type | Description | Required
+--------- | ---- | ----------- | --------
+config_sku | Path | The config SKU of the article. | Yes
+client_id | Query | Client ID for the client making the request. Used to track the origin of the request. | Yes
+sales_channel | Query | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
