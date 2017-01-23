@@ -161,7 +161,7 @@ sales_channel | Query | Sales Channel under which the article is being sold. The
 ```shell
 curl -X GET
     -H "Accept: application/x.zalando.article.recommendation+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
-    "https://{Catalog API URL}/api/articles/lop21ddff-k12/recommendation?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&client_id=client_HS23eDa2"
+    "https://{Catalog API URL}/api/articles/lop21ddff-k12/recommendations?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&client_id=client_HS23eDa2"
 ```
 
 > Sample Response
@@ -218,7 +218,7 @@ The Articles endpoint is public. Nevertheless, the origin (partner wise) of the 
 
 ### Request
 
-`GET /api/articles/{config-sku}/recommendation?sales_channel={sales-channel}&client_id={client-id}`
+`GET /api/articles/{config-sku}/recommendations?sales_channel={sales-channel}&client_id={client-id}`
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
