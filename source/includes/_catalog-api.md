@@ -151,7 +151,7 @@ Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
 config_sku | Path | The config SKU of the article. | Yes
 client_id | Query | Client ID for the client making the request. Used to track the origin of the request. | Yes
-sales_channel | Query | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
+sales_channel | Header | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
 
 
 ## Getting Article Recommendation
@@ -224,4 +224,4 @@ Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
 config_sku | Path | The config SKU of the article. | Yes
 client_id | Query | Client ID for the client making the request. Used to track the origin of the request. | Yes
-sales_channel | Query | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
+sales_channel | Header | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
