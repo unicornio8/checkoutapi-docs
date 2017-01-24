@@ -83,7 +83,8 @@ OAuth token | Header | Service token used to authenticate the request. The toke
 ```shell
 curl -X GET
     -H "Accept: application/x.zalando.articles+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
-    "https://{Catalog API URL}/api/articles/su221d0pi-m11?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&client_id=client_HS23eDa2"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
+    "https://{Catalog API URL}/api/articles/su221d0pi-m11?client_id=client_HS23eDa2"
 ```
 
 > Sample Response
@@ -145,13 +146,13 @@ The Articles endpoint is public. Nevertheless, the origin (partner wise) of the 
 
 ### Request
 
-`GET /api/articles/{config-sku}?sales_channel={sales-channel}&client_id={client-id}`
+`GET /api/articles/{config-sku}&client_id={client-id}`
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
 config_sku | Path | The config SKU of the article. | Yes
 client_id | Query | Client ID for the client making the request. Used to track the origin of the request. | Yes
-sales_channel | Header | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
+X-Sales-Channel | Header | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
 
 
 ## Getting Article Recommendation
@@ -161,7 +162,8 @@ sales_channel | Header | Sales Channel under which the article is being sold. Th
 ```shell
 curl -X GET
     -H "Accept: application/x.zalando.article.recommendation+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
-    "https://{Catalog API URL}/api/articles/lop21ddff-k12/recommendations?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&client_id=client_HS23eDa2"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
+    "https://{Catalog API URL}/api/articles/lop21ddff-k12/recommendations?client_id=client_HS23eDa2"
 ```
 
 > Sample Response
@@ -224,4 +226,4 @@ Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
 config_sku | Path | The config SKU of the article. | Yes
 client_id | Query | Client ID for the client making the request. Used to track the origin of the request. | Yes
-sales_channel | Header | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
+X-Sales-Channel | Header | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
