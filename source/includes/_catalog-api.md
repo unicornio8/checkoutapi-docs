@@ -83,7 +83,8 @@ OAuth token | Header | Service token used to authenticate the request. The toke
 ```shell
 curl -X GET
     -H "Accept: application/x.zalando.articles+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
-    "https://{Catalog API URL}/api/articles/su221d0pi-m11?sales_channel=16b43f36-5ef9-0a25-3f4b-b00b5007b3de&client_id=client_HS23eDa2"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
+    "https://{Catalog API URL}/api/articles/su221d0pi-m11?client_id=client_HS23eDa2"
 ```
 
 > Sample Response
@@ -145,10 +146,70 @@ The Articles endpoint is public. Nevertheless, the origin (partner wise) of the 
 
 ### Request
 
-`GET /api/articles/{config-sku}?sales_channel={sales-channel}&client_id={client-id}`
+`GET /api/articles/{config-sku}&client_id={client-id}`
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
 config_sku | Path | The config SKU of the article. | Yes
 client_id | Query | Client ID for the client making the request. Used to track the origin of the request. | Yes
-sales_channel | Query | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
+X-Sales-Channel | Header | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
+
+
+## Getting Article Recommendation
+
+> Sample Request
+
+```shell
+curl -X GET
+    -H "Accept: application/x.zalando.article.recommendation+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
+    -H "X-Sales-Channel: 16b43f36-5ef9-0a25-3f4b-b00b5007b3de"
+    "https://{Catalog API URL}/api/articles/lop21ddff-k12/recommendations?client_id=client_HS23eDa2"
+```
+
+> Sample Response
+
+```
+[
+  {
+    "id": "LE312300R-K11",
+    "name": "HUSKY - Snowboot / Winterstiefel - ocean ",
+    "brand": {
+      "name": "Superfit"
+    },
+    "lowest_price": {
+      "amount": 65.95,
+      "currency": "EUR"
+    },
+    "media": {
+      "images": [
+        {
+          "order": 1,
+          "catalog": "https://something-xx-xx@x.jpg",
+          "catalog_hd": "https://something-xxx-xx@xx.jpg",
+          "detail": "https://something-xxx-xx@xx.jpg",
+          "detail_hd": "https://something-xx-xxx@xx.jpg",
+          "large": "https://something-xxxx-xxx@xx.jpg",
+          "large_hd": "https://something-xxxx-xxx@xx.jpg"
+        }
+      ]
+    }
+  }
+]
+```
+
+With this call, you will get similar articles, which could then be presented on the product detail page;
+thereby, allowing customers to see other products without searching for them.
+
+### Security
+
+The Articles endpoint is public. Nevertheless, the origin (partner wise) of the requests is identified by the `client_id` parameter. This allows us to get some control over the endpoint to prevent abuses.
+
+### Request
+
+`GET /api/articles/{config-sku}/recommendations?sales_channel={sales-channel}&client_id={client-id}`
+
+Parameter | Type | Description | Required
+--------- | ---- | ----------- | --------
+config_sku | Path | The config SKU of the article. | Yes
+client_id | Query | Client ID for the client making the request. Used to track the origin of the request. | Yes
+X-Sales-Channel | Header | Sales Channel under which the article is being sold. The sales channel gives us the country and currency to show the price. | Yes
