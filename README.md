@@ -27,7 +27,12 @@ You're going to need:
 
 ```shell
 # either run this to run locally
+
+## build
+bundle update
 bundle install
+
+## run
 bundle exec middleman server
 
 # OR run this to run with vagrant
