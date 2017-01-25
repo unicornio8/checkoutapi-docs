@@ -171,41 +171,27 @@ curl -X GET
 ```
 [
   {
-    "id": "SU221D0PI-M11000S000",
-    "size": "S",
-    "price": {
-      "amount": 19.95,
+    "id": "LE312300R-K11",
+    "name": "HUSKY - Snowboot / Winterstiefel - ocean ",
+    "brand": {
+      "name": "Superfit"
+    },
+    "lowest_price": {
+      "amount": 65.95,
       "currency": "EUR"
     },
-    "original_price": {
-      "amount": 19.95,
-      "currency": "EUR"
-    },
-    "available": true,
-    "stock": 3,
-    "partner": {
-      "id": "3293",
-      "name": "Superdry",
-      "detail_url": "https://www.zalando.de/superdry-top-khaki-twist-su221d0pi-m11.html"
-    }
-  },
-  {
-    "id": "ADB123456-H12000L000",
-    "size": "L",
-    "price": {
-      "amount": 99.88,
-      "currency": "EUR"
-    },
-    "original_price": {
-      "amount": 12.95,
-      "currency": "EUR"
-    },
-    "available": true,
-    "stock": 3,
-    "partner": {
-      "id": "3293",
-      "name": "Test",
-      "detail_url": "https://www.zalando.de/something-ADB123456-H12.html"
+    "media": {
+      "images": [
+        {
+          "order": 1,
+          "catalog": "https://something-xx-xx@x.jpg",
+          "catalog_hd": "https://something-xxx-xx@xx.jpg",
+          "detail": "https://something-xxx-xx@xx.jpg",
+          "detail_hd": "https://something-xx-xxx@xx.jpg",
+          "large": "https://something-xxxx-xxx@xx.jpg",
+          "large_hd": "https://something-xxxx-xxx@xx.jpg"
+        }
+      ]
     }
   }
 ]
