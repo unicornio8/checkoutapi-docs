@@ -146,7 +146,7 @@ The Articles endpoint is public. Nevertheless, the origin (partner wise) of the 
 
 ### Request
 
-`GET /api/articles/{config-sku}&client_id={client-id}`
+`GET /api/articles/{config-sku}?client_id={client-id}`
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
@@ -206,7 +206,7 @@ The Articles endpoint is public. Nevertheless, the origin (partner wise) of the 
 
 ### Request
 
-`GET /api/articles/{config-sku}/recommendations?sales_channel={sales-channel}&client_id={client-id}`
+`GET /api/articles/{config-sku}/recommendations?client_id={client-id}`
 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
