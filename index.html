@@ -1251,11 +1251,13 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 
 <p>Important to notice, is that the three options to provide addresses are mutually exclusive. Clients of the API can either send one or the other, but never both. For example, sending values in <code class="prettyprint">billing_address</code> and <code class="prettyprint">billing_address_id</code> will result in a 400 error. But you can send the <code class="prettyprint">billing_address</code> and the <code class="prettyprint">shipping_address_id</code>. The reason for this behavior is to set clear expectations from the client to the API, and vice versa. This way it is always clear which address should be used. Giving preference to one field over the other would not be completely clear to the API because there is no way of knowing which one the client intended to use, nor would it be to the client which one was used, and why.</p>
 
-<p>Notice that the response also does not include the articles being ordered. You can get that using the endpoint to get the <a href="#getting-the-cart">cart content</a>.</p>
+<p>Please note that the response also does not include the articles being ordered. You can get that using the endpoint to get the <a href="#getting-the-cart">cart content</a>.</p>
 
 <p>Assuming that everything is OK with the articles and addresses, we are left with the payment step. There are two options here: the customer already has the default payment method selected (look into the <code class="prettyprint">payment</code> field); customer has no default payment method, or wishes to use a different one. For the first case the checkout process can proceed to order creation. For the second case the customer must be redirected to the payment selection page indicated by the <code class="prettyprint">selection_page_url</code> field.</p>
 
 <p>The payment selection is done outside of our components. Using the link in the <code class="prettyprint">selection_page_url</code> field, customers are directed to a page where the selection of the payment method is done. After they&rsquo;re finished, customers will be redirected back to the checkout. This will require a redirect URL provided by the client of our API, which is sent by our component to the payment component. To know which payment method was selected clients of the API need to <a href="#getting-the-checkout">get the checkout object</a> to get an updated version.</p>
+
+<p>When payment information is returned as part of the checkout object the <code class="prettyprint">metadata</code> field might have some useful information to display to the customer. The content of that field will depend on the payment method selected. For some examples of metadata per payment method please check the <a href="#payment">Payment section</a>.</p>
 
 <p>Worth noticing is the <code class="prettyprint">payment.external_payment</code> flag. When set to true, clients of the API can already provide the customer with the information that they will be redirected to an external page after order creation (for example, for payments with PayPal). More details on payment in the <a href="#payment">Payment section</a>.</p>
 
@@ -2077,6 +2079,78 @@ Speaking of Pick up points, we currently differentiate them between Packstation,
 <p>Regarding the state of the order, in case of success it will be complete. In case of failure, the order will remain as preliminary for some time (the time period is not controlled by team Atlas). During that time customers can still try to pay for their order. After that, the order will be canceled.</p>
 
 <p>To know how all of this takes place in the checkout process using our component, please read the section to <a href="#creating-a-checkout">create a checkout</a>.</p>
+
+<h3 id="payment-metadata">Payment Metadata</h3>
+
+<blockquote>
+<p>Credit Card</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"metadata"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VISA"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"card_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VISA"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"pan_prefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"411111"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"pan_suffix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1111"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"pseudo_pan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1103387054470615782"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"card_holder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bruce Wayne"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"expiry_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11/2020"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>PRZELEWY24</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"metadata"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noreplay@umbreallacorp.org"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>EPS (Electronic Payment Standard)</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"metadata"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"issuer_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ARZ_BCS"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>POSTFINANCE</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"metadata"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PFC"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>IDEAL</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"metadata"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"issuer_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VAN_LANSCHOT_BANKIERS"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>Maksuturva</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"metadata"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"issuer_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SPANKKI"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Payment information as it is returned by our <a href="#checkout-operations">checkout operations</a> can include metadata with extra information to show to the customer. The data contained is specific to the payment method selected, so it should be interpreted depending on that payment method. To the right you will find some examples of metadata.</p>
+
+<p>Remember that not all payment methods return metadata. However, if there is a payment method that is missing here feel free to contact team Atlas.</p>
 
           <h1 id="catalog-api">Catalog API</h1>
 
