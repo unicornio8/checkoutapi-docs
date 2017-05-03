@@ -292,7 +292,7 @@ X-Sales-Channel | Header | Used to specify to which sales channel the request be
 OAuth token | Header | Customer token used to authenticate the request. The token specifies under which user the address will be created. | Yes
 Address creation request object | Body | Address details | Yes
 
-## Changing an address
+## Updating an address
 
 > Sample Request
 
@@ -337,7 +337,7 @@ curl -X PUT
 }
 ```
 
-Except for the request URI, changing addresses is in everything similar to creating them. The same rules apply to build the request body (the address object).
+Except for the request URI, updating addresses is in everything similar to creating them. The same rules apply to build the request body (the address object).
 
 Also like the create address endpoint, they are useful when the customer is picking which addresses to use in the checkout, and needs to make small adjustments to one of them.
 
@@ -348,7 +348,7 @@ Also like the create address endpoint, they are useful when the customer is pick
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
 X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
-OAuth token | Header | Customer token used to authenticate the request. Used to validate if the address to be changed belongs to the customer issuing the request. | Yes
+OAuth token | Header | Customer token used to authenticate the request. Used to validate if the address to be updated belongs to the customer issuing the request. | Yes
 address_id | Path | ID of the customer address | Yes
 Address update request object | Body | Address details | Yes
 
@@ -412,7 +412,7 @@ curl -X POST
 
 The last address operation, and the only request that is not directly related to customer addresses, Address Checks are a useful tool to help ensure that Zalando orders reach our customers. Similarly to creating or updating addresses, there are some rules when it comes to Pick up points. Fortunately, they are the same rules as the above operations.
 
-With address checks, one can submit an address for validation. The request will tell you whether the address is properly written - and if it isn't it will try to provide an alternative -, or if it is blacklisted. Suggestions provided by this endpoint are not mandatory. They should be presented to the customer, and suggested to use the alternative as it will increase the chances of getting the order. The reason why the suggestion is not mandatory is because the inputted address can be of a recent building, which is not yet recognized by our services. This operation should be performed with every new address created, or changes to an address.
+With address checks, one can submit an address for validation. The request will tell you whether the address is properly written - and if it isn't it will try to provide an alternative -, or if it is blacklisted. Suggestions provided by this endpoint are not mandatory. They should be presented to the customer, and suggested to use the alternative as it will increase the chances of getting the order. The reason why the suggestion is not mandatory is because the inputted address can be of a recent building, which is not yet recognized by our services. This operation should be performed with every new address created, or updates to an address.
 
 Some additional information about the status returned in the response object (you can also find it in the API spec):
 
@@ -504,7 +504,7 @@ X-Sales-Channel | Header | Used to specify to which sales channel the request be
 OAuth token | Header | Customer token used to authenticate the request. | Yes
 Cart creation request object | Body | Specifies the content of the cart, and the sales channel where the items are being sold. | Yes
 
-## Changing a cart
+## Updating a cart
 
 > Sample Request
 
@@ -563,7 +563,7 @@ It is important to notice that the body for this request should include all the 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
 X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is important to validate whether the cart was created under the same sales channel | Yes
-OAuth token | Header | Customer token used to authenticate the request. Used to validate if the cart to be changed belongs to the customer issuing the request. | Yes
+OAuth token | Header | Customer token used to authenticate the request. Used to validate if the cart to be updated belongs to the customer issuing the request. | Yes
 cart_id | Path | The ID of the Cart | Yes
 Cart update request object | Body | Specifies the content of the cart. After creation, only the items can be changed. | Yes
 
@@ -621,7 +621,7 @@ cart_id | Path | The ID of the Cart | Yes
 
 ## Checkout Operations
 
-At the checkout step, customers will specify the addresses for billing and shipping, delivery options (which for the time being are limited to Standard delivery only), and the payment method. The payment selection, as well as any input regarding payment, is done outside of our components. For more information please check the [Payment section](#payment).
+At the checkout step, customers will specify the addresses for billing and shipping, delivery options, and the payment method. The payment selection, as well as any input regarding payment, is done outside of our components. For more information please check the [Payment section](#payment).
 
 Remaining purpose of the checkout operation is to confirm all the selections done by the customer, and make the necessary adjustments. Said adjustments are limited to the addresses and payment method. Changes to the articles being ordered requires starting all over. Two reasons for this are stock and price verification. Even for articles that were already in the cart, verifying stock and price is required. Not to mention recalculating the total cart value.
 
@@ -720,8 +720,17 @@ curl -X POST
     }
   },
   "delivery": {
+    "service": "STANDARD",
+      "cost": {
+        "amount": 0,
+        "currency": "EUR"
+      },
     "earliest": "2015-04-21T13:27:31+01:00",
-    "latest": "2015-04-23T13:27:31+01:00"
+    "latest": "2015-04-23T13:27:31+01:00",
+    "options": [
+          "STANDARD",
+          "EXPRESS"
+        ]
   },
   "payment": {
     "selected": {
@@ -747,7 +756,13 @@ Let's take a closer look at the different ways to specify the checkout addresses
  * Address ID field: The address with the corresponding ID will be loaded from the customer's address book. If the specified address is not found, a 409 will be returned.
  * Full address field: The address will be used in the checkout, but not stored in the customer's address book. To use a pick up point, this is the only way available, given that it is not allowed to store pick up points in the customer's address book.
 
-Important to notice, is that the three options to provide addresses are mutually exclusive. Clients of the API can either send one or the other, but never both. For example, sending values in `billing_address` and `billing_address_id` will result in a 400 error. But you can send the `billing_address` and the `shipping_address_id`. The reason for this behavior is to set clear expectations from the client to the API, and vice versa. This way it is always clear which address should be used. Giving preference to one field over the other would not be completely clear to the API because there is no way of knowing which one the client intended to use, nor would it be to the client which one was used, and why.
+Important to notice is that the three options to provide addresses are mutually exclusive. Clients of the API can either send one or the other, but never both. For example, sending values in `billing_address` and `billing_address_id` will result in a 400 error. But you can send the `billing_address` and the `shipping_address_id`. The reason for this behavior is to set clear expectations from the client to the API, and vice versa. This way it is always clear which address should be used. Giving preference to one field over the other would not be completely clear to the API because there is no way of knowing which one the client intended to use, nor would it be to the client which one was used, and why.
+
+After calling the endpoint, the response contains the `ìd` of the checkout, that should be used when [creating an order](#creating-an-order). It also returns the `customer_number` and the `cart_id` as well as the
+`shipping_adress` and `billing_adress`. Furthermore you can find `delivery`. This object contains the information for the delivery. It shows the the shipping method (`service`), its cost (`cost`), an estimated
+delivery date range (`earliest` and `latest`) and a list of available shipping methods (`options`).
+By default, the shipping method is set to `STANDARD`. The different methods depend on the items in your cart. If, for example, all of the items can be delivered via `STANDARD` and `EXPRESS`,
+then these options will be available in your checkout. If, however, one of your items can only be delivered via the `STANDARD` shipping method, then this will be the only service available for the whole checkout.
 
 Please note that the response also does not include the articles being ordered. You can get that using the endpoint to get the [cart content](#getting-the-cart).
 
@@ -770,9 +785,9 @@ X-Forwarded-For | Header | IP of the customer device issuing the request. If not
 OAuth token | Header | Customer token used to authenticate the request. The token also helps validate that the cart and addresses being used belong to the user making the request | Yes
 Checkout creation request object | Body | Input that clients can/need to provide for checkout creation | Yes
 
-## Changing the checkout
+## Updating the checkout
 
-> Sample Request (with address IDs)
+> Sample Request (with address IDs) with shipping method changed to express
 
 ```shell
 curl -X PUT
@@ -781,12 +796,15 @@ curl -X PUT
     -H "Accept: application/x.zalando.customer.checkout.update.response+json;charset=UTF-8,application/x.problem+json;charset=UTF-8"
     -d '{
             "billing_address_id": "10",
-            "shipping_address_is": "11"
+            "shipping_address_is": "11",
+            "delivery":{
+                	"service":"EXPRESS"
+                }
         }'
     "https://{Checkout API URL}/api/checkouts/VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"
 ```
 
-> Sample Request (with complete addresses)
+> Sample Request (with complete addresses) with shipping method changed to express
 
 ```shell
 curl -X PUT
@@ -816,6 +834,9 @@ curl -X PUT
                     "id": 123,
                     "member_id": 12345678
                 }
+            },
+            "delivery":{
+                "service":"EXPRESS"
             }
         }'
     "https://{Checkout API URL}/api/checkouts/VOJX0xgdfGbuziS6W9i1FUCeBkRWzaH6CAL5T0dEabc"
@@ -850,9 +871,17 @@ curl -X PUT
     "country_code": "DE"
   },
   "delivery": {
-    "earliest": "2015-04-21T13:27:31+01:00",
-    "latest": "2015-04-23T13:27:31+01:00"
-  },
+      "service": "EXPRESS",
+      "cost": {
+        "amount": 7,
+        "currency": "EUR"
+      },
+      "earliest": "2016-10-19T22:00:00Z",
+      "latest": "2016-10-19T22:00:00Z",
+      "options": [
+        "STANDARD",
+        "EXPRESS"
+      ],
   "payment": {
     "selected": {
       "method": "CREDIT_CARD",
@@ -925,8 +954,17 @@ curl -X GET
     "country_code": "DE"
   },
   "delivery": {
+    "service": "STANDARD",
+      "cost": {
+        "amount": 0,
+        "currency": "EUR"
+      },
     "earliest": "2015-04-21T13:27:31+01:00",
-    "latest": "2015-04-23T13:27:31+01:00"
+    "latest": "2015-04-23T13:27:31+01:00",
+    "options": [
+          "STANDARD",
+          "EXPRESS"
+        ]
   },
   "payment": {
     "selected": {
