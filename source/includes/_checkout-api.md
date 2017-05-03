@@ -764,11 +764,13 @@ delivery date range (`earliest` and `latest`) and a list of available shipping m
 By default, the shipping method is set to `STANDARD`. The different methods depend on the items in your cart. If, for example, all of the items can be delivered via `STANDARD` and `EXPRESS`,
 then these options will be available in your checkout. If, however, one of your items can only be delivered via the `STANDARD` shipping method, then this will be the only service available for the whole checkout.
 
-Notice that the response also does not include the articles being ordered. You can get that using the endpoint to get the [cart content](#getting-the-cart).
+Please note that the response also does not include the articles being ordered. You can get that using the endpoint to get the [cart content](#getting-the-cart).
 
 Assuming that everything is OK with the articles and addresses, we are left with the payment step. There are two options here: the customer already has the default payment method selected (look into the `payment` field); customer has no default payment method, or wishes to use a different one. For the first case the checkout process can proceed to order creation. For the second case the customer must be redirected to the payment selection page indicated by the `selection_page_url` field.
 
 The payment selection is done outside of our components. Using the link in the `selection_page_url` field, customers are directed to a page where the selection of the payment method is done. After they're finished, customers will be redirected back to the checkout. This will require a redirect URL provided by the client of our API, which is sent by our component to the payment component. To know which payment method was selected clients of the API need to [get the checkout object](#getting-the-checkout) to get an updated version.
+
+When payment information is returned as part of the checkout object the `metadata` field might have some useful information to display to the customer. The content of that field will depend on the payment method selected. For some examples of metadata per payment method please check the [Payment section](#payment).
 
 Worth noticing is the `payment.external_payment` flag. When set to true, clients of the API can already provide the customer with the information that they will be redirected to an external page after order creation (for example, for payments with PayPal). More details on payment in the [Payment section](#payment).
 
@@ -1438,3 +1440,75 @@ After selecting the method that the customer wants to pay his or her order with,
 Regarding the state of the order, in case of success it will be complete. In case of failure, the order will remain as preliminary for some time (the time period is not controlled by team Atlas). During that time customers can still try to pay for their order. After that, the order will be canceled.
 
 To know how all of this takes place in the checkout process using our component, please read the section to [create a checkout](#creating-a-checkout).
+
+### Payment Metadata
+
+> Credit Card
+
+```json
+{
+  "metadata" : {
+      "provider": "VISA",
+      "card_type": "VISA",
+      "pan_prefix": "411111",
+      "pan_suffix": "1111",
+      "pseudo_pan": "1103387054470615782",
+      "card_holder": "Bruce Wayne",
+      "expiry_date": "11/2020"
+  }
+}
+```
+
+> PRZELEWY24
+
+```json
+{
+  "metadata" : {
+      "email": "noreplay@umbreallacorp.org"
+  }
+}
+```
+
+> EPS (Electronic Payment Standard)
+
+```json
+{
+  "metadata" : {
+      "issuer_code": "ARZ_BCS"
+  }
+}
+```
+
+> POSTFINANCE
+
+```json
+{
+  "metadata" : {
+        "type": "PFC"
+  }
+}
+```
+
+> IDEAL
+
+```json
+{
+  "metadata" : {
+      "issuer_code": "VAN_LANSCHOT_BANKIERS"
+  }
+}
+```
+
+> Maksuturva
+
+```json
+{
+  "metadata" : {
+      "issuer_code": "SPANKKI"
+  }
+}
+```
+
+Payment information as it is returned by our [checkout operations](#checkout-operations) can include metadata with extra information to show to the customer. The data contained is specific to the payment method selected, so it should be interpreted depending on that payment method. To the right you will find some examples of metadata.
+
+Remember that not all payment methods return metadata. However, if there is a payment method that is missing here feel free to contact team Atlas.
