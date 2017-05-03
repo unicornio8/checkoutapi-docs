@@ -292,7 +292,7 @@ X-Sales-Channel | Header | Used to specify to which sales channel the request be
 OAuth token | Header | Customer token used to authenticate the request. The token specifies under which user the address will be created. | Yes
 Address creation request object | Body | Address details | Yes
 
-## Changing an address
+## Updating an address
 
 > Sample Request
 
@@ -337,7 +337,7 @@ curl -X PUT
 }
 ```
 
-Except for the request URI, changing addresses is in everything similar to creating them. The same rules apply to build the request body (the address object).
+Except for the request URI, updating addresses is in everything similar to creating them. The same rules apply to build the request body (the address object).
 
 Also like the create address endpoint, they are useful when the customer is picking which addresses to use in the checkout, and needs to make small adjustments to one of them.
 
@@ -348,7 +348,7 @@ Also like the create address endpoint, they are useful when the customer is pick
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
 X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is relevant to validate whether the submitted address is for a country the sales channel operates in. | Yes
-OAuth token | Header | Customer token used to authenticate the request. Used to validate if the address to be changed belongs to the customer issuing the request. | Yes
+OAuth token | Header | Customer token used to authenticate the request. Used to validate if the address to be updated belongs to the customer issuing the request. | Yes
 address_id | Path | ID of the customer address | Yes
 Address update request object | Body | Address details | Yes
 
@@ -412,7 +412,7 @@ curl -X POST
 
 The last address operation, and the only request that is not directly related to customer addresses, Address Checks are a useful tool to help ensure that Zalando orders reach our customers. Similarly to creating or updating addresses, there are some rules when it comes to Pick up points. Fortunately, they are the same rules as the above operations.
 
-With address checks, one can submit an address for validation. The request will tell you whether the address is properly written - and if it isn't it will try to provide an alternative -, or if it is blacklisted. Suggestions provided by this endpoint are not mandatory. They should be presented to the customer, and suggested to use the alternative as it will increase the chances of getting the order. The reason why the suggestion is not mandatory is because the inputted address can be of a recent building, which is not yet recognized by our services. This operation should be performed with every new address created, or changes to an address.
+With address checks, one can submit an address for validation. The request will tell you whether the address is properly written - and if it isn't it will try to provide an alternative -, or if it is blacklisted. Suggestions provided by this endpoint are not mandatory. They should be presented to the customer, and suggested to use the alternative as it will increase the chances of getting the order. The reason why the suggestion is not mandatory is because the inputted address can be of a recent building, which is not yet recognized by our services. This operation should be performed with every new address created, or updates to an address.
 
 Some additional information about the status returned in the response object (you can also find it in the API spec):
 
@@ -504,7 +504,7 @@ X-Sales-Channel | Header | Used to specify to which sales channel the request be
 OAuth token | Header | Customer token used to authenticate the request. | Yes
 Cart creation request object | Body | Specifies the content of the cart, and the sales channel where the items are being sold. | Yes
 
-## Changing a cart
+## Updating a cart
 
 > Sample Request
 
@@ -563,7 +563,7 @@ It is important to notice that the body for this request should include all the 
 Parameter | Type | Description | Required
 --------- | ---- | ----------- | --------
 X-Sales-Channel | Header | Used to specify to which sales channel the request belongs to. This is important to validate whether the cart was created under the same sales channel | Yes
-OAuth token | Header | Customer token used to authenticate the request. Used to validate if the cart to be changed belongs to the customer issuing the request. | Yes
+OAuth token | Header | Customer token used to authenticate the request. Used to validate if the cart to be updated belongs to the customer issuing the request. | Yes
 cart_id | Path | The ID of the Cart | Yes
 Cart update request object | Body | Specifies the content of the cart. After creation, only the items can be changed. | Yes
 
