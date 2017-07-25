@@ -1,9 +1,7 @@
 approvals:
-  groups:
-    zalando:
-      minimum: 2
-      from:
-        orgs:
-          - "zalando"
-
-X-Zalando-Team: "atlas"
+  from:
+    orgs:
+      - atlas
+    collaborators: true
+X-Zalando-Team: "dc"
+X-Zalando-Type: code
